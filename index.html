@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>메모RE - 통합 암기 플랫폼</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght=300;400;500;700&display=swap');
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #ffffff;
+            color: #111111;
+            /* 모바일에서 길게 누를 때 텍스트 선택 및 팝업창 완전 방지 */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* 3D 플립 카드 효과 설정 */
+        .card-perspective {
+            perspective: 1000px;
+            width: 100%;
+            height: 100%;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.5rem;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* 드래그앤드롭 배열 아이템 스타일링 */
+        .drag-item {
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            cursor: grab;
+            touch-action: none;
+        }
+        .drag-item:active {
+            cursor: grabbing;
+        }
+        .drag-item.dragging {
+            opacity: 0.5;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: scale(1.02);
+            z-index: 40;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-neutral-200">
+
+    <header class="border-b border-neutral-200 py-4 px-6 sticky top-0 bg-white z-50">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <button onclick="goHome()" class="text-xl font-bold tracking-widest hover:opacity-70 transition-opacity">메모RE</button>
+            <div class="flex items-center gap-3">
+                <button onclick="toggleHelpModal()" class="w-8 h-8 flex items-center justify-center border border-neutral-300 rounded text-sm hover:bg-neutral-50 transition-colors" title="도움말">
+                    ❓
+                </button>
+                <button id="back-btn" onclick="goBack()" class="hidden px-2.5 py-1 text-xs border border-neutral-300 rounded hover:bg-neutral-50 transition-colors">
+                    이전으로
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow w-full max-w-md mx-auto px-5 py-6">
+
+        <section id="view-home" class="space-y-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <h2 class="text-sm tracking-wider text-neutral-500 font-medium">폴더 목록</h2>
+                    <span id="sync-status-indicator" class="w-2 h-2 rounded-full bg-neutral-300" title="클라우드 비동기화"></span>
+                </div>
+                <button onclick="openFolderAddModal()" class="text-xs border border-neutral-300 px-2 py-1 rounded hover:bg-neutral-50 transition-colors">+ 새 폴더</button>
+            </div>
+            
+            <div id="folder-list" class="space-y-3">
+                </div>
+        </section>
+
+        <section id="view-folder-detail" class="hidden space-y-6">
+            <div class="border-b border-neutral-200 pb-3">
+                <div class="flex items-center justify-between">
+                    <h2 id="current-folder-title" class="text-xl font-bold text-neutral-900">폴더명</h2>
+                    <div class="flex gap-2">
+                        <button onclick="triggerFolderDelete()" class="text-xs text-red-500 border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition-colors">폴더 삭제</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <h3 class="text-sm tracking-wider text-neutral-500 font-medium">암기 묶음</h3>
+                <button onclick="openSetAddModal()" class="text-xs border border-neutral-300 px-2 py-1 rounded hover:bg-neutral-50 transition-colors">+ 새 묶음</button>
+            </div>
+
+            <div id="set-list" class="space-y-3">
+                </div>
+        </section>
+
+        <section id="view-set-detail" class="hidden space-y-6">
+            <div class="border-b border-neutral-200 pb-3 flex justify-between items-center">
+                <div>
+                    <h2 id="current-set-title" class="text-xl font-bold text-neutral-900">묶음명</h2>
+                    <p class="text-xs text-neutral-400 mt-1">완주 횟수: <span id="current-set-count" class="font-bold">0</span>회</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="openSetDataEdit()" class="text-xs border border-neutral-300 px-2.5 py-1 rounded hover:bg-neutral-50 transition-colors">데이터 관리</button>
+                    <button onclick="triggerSetDelete()" class="text-xs text-red-500 border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition-colors">묶음 삭제</button>
+                </div>
+            </div>
+
+            <div id="resume-banner" class="hidden border border-neutral-900 p-4 rounded bg-neutral-50 space-y-2">
+                <p class="text-xs font-semibold text-neutral-800">⚠️ 학습 중이던 데이터가 존재합니다.</p>
+                <p class="text-xs text-neutral-500" id="resume-details">학습 모드: 암기 / 난이도: 메</p>
+                <div class="flex gap-2 pt-1">
+                    <button onclick="resumeStudy()" class="text-xs bg-neutral-900 text-white px-3 py-1.5 rounded hover:bg-neutral-800 transition-colors">이어서 학습하기</button>
+                    <button onclick="clearResumeData()" class="text-xs border border-neutral-300 px-2.5 py-1.5 rounded text-neutral-500 hover:bg-neutral-100 transition-colors">새로 시작</button>
+                </div>
+            </div>
+
+            <div class="bg-neutral-50 p-3 rounded border border-neutral-200 flex items-center justify-between">
+                <span class="text-xs font-medium text-neutral-600">난이도 선택</span>
+                <div class="flex border border-neutral-300 rounded overflow-hidden">
+                    <button id="diff-me-btn" onclick="setDifficulty('ME')" class="px-4 py-1.5 text-xs font-bold bg-neutral-900 text-white transition-all">메 (기본)</button>
+                    <button id="diff-mo-btn" onclick="setDifficulty('MO')" class="px-4 py-1.5 text-xs font-bold bg-white text-neutral-700 hover:bg-neutral-100 transition-all">모 (심화 복습)</button>
+                </div>
+            </div>
+
+            <div class="space-y-3 pt-2">
+                <button onclick="startStudy('MEMORIZE')" class="w-full border border-neutral-900 p-5 text-left rounded hover:bg-neutral-50 transition-all flex justify-between items-center group">
+                    <div>
+                        <span class="text-base font-bold text-neutral-900">암기 모드</span>
+                        <p class="text-xs text-neutral-500 mt-1">카드를 터치해 뒤집고, 양옆 슬라이드로 외움 상태를 분류합니다.</p>
+                    </div>
+                    <span class="text-neutral-300 group-hover:text-neutral-900 transition-colors">→</span>
+                </button>
+
+                <button onclick="startStudy('SEQUENCE')" class="w-full border border-neutral-900 p-5 text-left rounded hover:bg-neutral-50 transition-all flex justify-between items-center group">
+                    <div>
+                        <span class="text-base font-bold text-neutral-900">배열 모드</span>
+                        <p class="text-xs text-neutral-500 mt-1">드래그앤드롭으로 순서를 정렬하고 중요 성격과 뜻을 검증합니다.</p>
+                    </div>
+                    <span class="text-neutral-300 group-hover:text-neutral-900 transition-colors">→</span>
+                </button>
+
+                <button onclick="startStudy('CLASSIFY')" class="w-full border border-neutral-900 p-5 text-left rounded hover:bg-neutral-50 transition-all flex justify-between items-center group">
+                    <div>
+                        <span class="text-base font-bold text-neutral-900">분류 모드</span>
+                        <p class="text-xs text-neutral-500 mt-1">키워드를 알맞은 카테고리 공간으로 드래그하여 매칭합니다.</p>
+                    </div>
+                    <span class="text-neutral-300 group-hover:text-neutral-900 transition-colors">→</span>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 이 부분에 기존에 작성하셨던 자바스크립트 로직(goHome, startStudy 등)을 이어서 넣으시면 됩니다.
+        function goHome() {
+            // 홈 화면으로 이동 로직
+            console.log("홈으로 이동");
+        }
+        function toggleHelpModal() { /* ... */ }
+        function goBack() { /* ... */ }
+        function openFolderAddModal() { /* ... */ }
+        function triggerFolderDelete() { /* ... */ }
+        function openSetAddModal() { /* ... */ }
+        function openSetDataEdit() { /* ... */ }
+        function triggerSetDelete() { /* ... */ }
+        function resumeStudy() { /* ... */ }
+        function clearResumeData() { /* ... */ }
+        function setDifficulty(diff) { /* ... */ }
+        function startStudy(mode) { /* ... */ }
+    </script>
+</body>
+</html>
