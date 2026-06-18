@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>메모RE - 통합 암기 플랫폼</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght=300;400;500;700&display=swap');
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #ffffff;
+            color: #111111;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 2px; }
+
+        .card-perspective { perspective: 1000px; width: 100%; height: 100%; }
+        .flip-card-inner {
+            position: relative; width: 100%; height: 100%;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card-inner.flipped { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden; position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; border-radius: 0.5rem;
+        }
+        .flip-card-back { transform: rotateY(180deg); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-neutral-200">
+
+    <header class="border-b border-neutral-200 py-4 px-6 sticky top-0 bg-white z-50">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <button onclick="goHome()" class="text-xl font-bold tracking-widest hover:opacity-70 transition-opacity">메모RE</button>
+            <div class="flex items-center gap-3">
+                <button onclick="alert('도움말: 폴더와 암기 묶음을 만들어 학습을 진행하세요.')" class="w-8 h-8 flex items-center justify-center border border-neutral-300 rounded text-sm hover:bg-neutral-50 transition-colors">❓</button>
+                <button id="back-btn" onclick="goBack()" class="hidden px-2.5 py-1 text-xs border border-neutral-300 rounded hover:bg-neutral-50 transition-colors">이전으로</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow w-full max-w-md mx-auto px-5 py-6">
+        <section id="view-home" class="space-y-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <h2 class="text-sm tracking-wider text-neutral-500 font-medium">폴더 목록</h2>
+                </div>
+                <button onclick="createFolder()" class="text-xs border border-neutral-300 px-2 py-1 rounded hover:bg-neutral-50 transition-colors">+ 새 폴더</button>
+            </div>
+            <div id="folder-list" class="space-y-3">
+                </div>
+        </section>
+
+        <section id="view-folder-detail" class="hidden space-y-6">
+            <div class="border-b border-neutral-200 pb-3 flex justify-between items-center">
+                <h2 id="current-folder-title" class="text-xl font-bold text-neutral-900">폴더명</h2>
+                <button onclick="deleteFolder()" class="text-xs text-red-500 border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition-colors">폴더 삭제</button>
+            </div>
+            <div class="flex justify-between items-center">
+                <h3 class="text-sm tracking-wider text-neutral-500 font-medium">암기 묶음</h3>
+                <button onclick="createSet()" class="text-xs border border-neutral-300 px-2 py-1 rounded hover:bg-neutral-50 transition-colors">+ 새 묶음</button>
+            </div>
+            <div id="set-list" class="space-y-3">
+                </div>
+        </section>
+
+        <section id="view-set-detail" class="hidden space-y-6">
+            <div class="border-b border-neutral-200 pb-3 flex justify-between items-center">
+                <div>
+                    <h2 id="current-set-title" class="text-xl font-bold text-neutral-900">묶음명</h2>
+                </div>
+                <button onclick="deleteSet()" class="text-xs text-red-500 border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition-colors">묶음 삭제</button>
+            </div>
+            <div class="space-y-3 pt-2">
+                <button onclick="alert('암기 모드를 시작합니다.')" class="w-full border border-neutral-900 p-5 text-left rounded hover:bg-neutral-50 transition-all">
+                    <span class="text-base font-bold text-neutral-900">암기 모드 시작</span>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 전역 상태 관리 및 데이터 초기화 (로컬스토리지 활용)
+        let state = JSON.parse(localStorage.getItem('memo_re_data')) || { folders: [] };
+        let currentFolderIdx = null;
+        let currentSetIdx = null;
+        let currentView = 'home';
+
+        function saveState() {
+            localStorage.setItem('memo_re_data', JSON.stringify(state));
+            render();
+        }
+
+        function changeView(view) {
+            currentView = view;
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-folder-detail').classList.add('hidden');
+            document.getElementById('view-set-detail').classList.add('hidden');
+            document.getElementById('back-btn').classList.add('hidden');
+
+            if (view === 'home') {
+                document.getElementById('view-home').classList.remove('hidden');
+            } else if (view === 'folder') {
+                document.getElementById('view-folder-detail').classList.remove('hidden');
+                document.getElementById('back-btn').classList.remove('hidden');
+            } else if (view === 'set') {
+                document.getElementById('view-set-detail').classList.remove('hidden');
+                document.getElementById('back-btn').classList.remove('hidden');
+            }
+        }
+
+        function goBack() {
+            if (currentView === 'set') changeView('folder');
+            else if (currentView === 'folder') changeView('home');
+        }
+
+        function goHome() { changeView('home'); }
+
+        function createFolder() {
+            const name = prompt('새 폴더 이름을 입력하세요:');
+            if (!name) return;
+            state.folders.push({ name: name, sets: [] });
+            saveState();
+        }
+
+        function deleteFolder() {
+            if (confirm('이 폴더를 완전히 삭제하시겠습니까?')) {
+                state.folders.splice(currentFolderIdx, 1);
+                saveState();
+                changeView('home');
+            }
+        }
+
+        function openFolder(idx) {
+            currentFolderIdx = idx;
+            document.getElementById('current-folder-title').innerText = state.folders[idx].name;
+            changeView('folder');
+            renderSets();
+        }
+
+        function createSet() {
+            const name = prompt('새 암기 묶음 이름을 입력하세요:');
+            if (!name) return;
+            state.folders[currentFolderIdx].sets.push({ name: name, cards: [] });
+            saveState();
+            renderSets();
+        }
+
+        function deleteSet() {
+            if (confirm('이 묶음을 완전히 삭제하시겠습니까?')) {
+                state.folders[currentFolderIdx].sets.splice(currentSetIdx, 1);
+                saveState();
+                changeView('folder');
+                renderSets();
+            }
+        }
+
+        function openSet(idx) {
+            currentSetIdx = idx;
+            document.getElementById('current-set-title').innerText = state.folders[currentFolderIdx].sets[idx].name;
+            changeView('set');
+        }
+
+        function render() {
+            const folderList = document.getElementById('folder-list');
+            folderList.innerHTML = '';
+            if (state.folders.length === 0) {
+                folderList.innerHTML = '<p class="text-sm text-neutral-400 text-center py-4">생성된 폴더가 없습니다.</p>';
+                return;
+            }
+            state.folders.forEach((folder, idx) => {
+                folderList.innerHTML += `
+                    <div onclick="openFolder(${idx})" class="p-4 border border-neutral-200 rounded cursor-pointer bg-white hover:bg-neutral-50 transition-colors flex justify-between items-center">
+                        <span class="font-medium">${escapeHtml(folder.name)}</span>
+                        <span class="text-xs text-neutral-400">묶음 ${folder.sets.length}개</span>
+                    </div>`;
+            });
+        }
+
+        function renderSets() {
+            const setList = document.getElementById('set-list');
+            setList.innerHTML = '';
+            const folder = state.folders[currentFolderIdx];
+            if (!folder || folder.sets.length === 0) {
+                setList.innerHTML = '<p class="text-sm text-neutral-400 text-center py-4">생성된 암기 묶음이 없습니다.</p>';
+                return;
+            }
+            folder.sets.forEach((set, idx) => {
+                setList.innerHTML += `
+                    <div onclick="openSet(${idx})" class="p-4 border border-neutral-200 rounded cursor-pointer bg-white hover:bg-neutral-50 transition-colors">
+                        <span class="font-medium">${escapeHtml(set.name)}</span>
+                    </div>`;
+            });
+        }
+
+        function escapeHtml(s) {
+            if (s === null || s === undefined) return "";
+            return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        // 초기 렌더링
+        render();
+    </script>
+</body>
+</html>
