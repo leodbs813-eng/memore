@@ -662,7 +662,7 @@
         }      
       
         function saveToLocalStorage() { if (appData) SafeStorage.setItem("memore_app_data_v7", JSON.stringify(appData)); }      
-        function saveSessionsToLocalStorage() { SafeStorage.setItem("memore_theme_v7", JSON.stringify(studySessions)); }      
+        function saveSessionsToLocalStorage() { SafeStorage.setItem("memore_sessions_v7", JSON.stringify(studySessions)); }      
       
         // ==================== 테마 시스템 엔지니어링 ====================      
         function initTheme() {      
@@ -1351,10 +1351,11 @@
                     const selectedImg = ruriImages[randomIndex];      
                     ruriImg.src = selectedImg;      
             
-                    // ruri1.JPG의 머리끝(뿔) 및 하단 캐릭터 전체가 완벽하게 나오도록 object-contain 적용 후 scale-120으로 미세 확대 및 위쪽(top) 중심 정렬 세팅  
+                    // ruri1.JPG가 ruri2.WEBP와 최대한 비슷한 체감 크기로 채워지도록 scale-[1.4] 배율로 확대 적용  
+                    // 뿔 끝머리와 본체가 온전히 살 수 있도록 object-position 정렬 기준을 10% 최상단 부근으로 정확하게 보정  
                     if (selectedImg.includes("ruri1")) {      
-                        ruriImg.className = "w-full h-full object-contain rounded-lg scale-120 transition-opacity duration-300 opacity-100";      
-                        ruriImg.style.objectPosition = "center top";  
+                        ruriImg.className = "w-full h-full object-contain rounded-lg scale-[1.4] transition-opacity duration-300 opacity-100";      
+                        ruriImg.style.objectPosition = "center 10%";  
                     } else {      
                         ruriImg.className = "w-full h-full object-contain transition-opacity duration-300 opacity-100";      
                         ruriImg.style.objectPosition = "center center"; // ruri2는 중심 정렬 유지  
