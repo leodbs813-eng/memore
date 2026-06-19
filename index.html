@@ -2,9 +2,9 @@
 <!DOCTYPE html>      
 <html lang="ko">      
 <head>      
-    <link rel="icon" href="/IMG_6116.PNG" type="image/png">      
+    <link class="icon-png" rel="icon" href="/IMG_6116.PNG" type="image/png">      
     <link rel="apple-touch-icon" href="/IMG_6116.PNG">      
-    <link rel="icon" href="/IMG_6116.PNG" type="image/png">      
+    <link class="icon-png-dup" rel="icon" href="/IMG_6116.PNG" type="image/png">      
     <meta charset="UTF-8">      
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">      
     <title>메모RE - 통합 암기 플랫폼</title>      
@@ -1351,11 +1351,13 @@
                     const selectedImg = ruriImages[randomIndex];      
                     ruriImg.src = selectedImg;      
             
-                    // ruri1.JPG의 경우 위쪽의 여백 공백을 커팅하고 아래쪽 캐릭터 본체를 살리도록 object-bottom 정렬  
+                    // ruri1.JPG의 머리가 안 잘리고 크기를 유지하도록, scale-110 배율에 object-position을 center 18%로 미세 정밀 세팅  
                     if (selectedImg.includes("ruri1")) {      
-                        ruriImg.className = "w-full h-full object-cover object-bottom rounded-lg scale-115 transition-opacity duration-300 opacity-100";      
+                        ruriImg.className = "w-full h-full object-cover rounded-lg scale-110 transition-opacity duration-300 opacity-100";      
+                        ruriImg.style.objectPosition = "center 18%";  
                     } else {      
                         ruriImg.className = "w-full h-full object-contain transition-opacity duration-300 opacity-100";      
+                        ruriImg.style.objectPosition = ""; // ruri2는 기존 중심 정렬 유지  
                     }      
                 }  
             } else {  
@@ -1600,3 +1602,6 @@
     </script>      
 </body>      
 </html>      
+
+
+
