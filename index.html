@@ -601,7 +601,7 @@
                 const div = document.createElement("div");
                 div.className = "border border-neutral-900 p-4 rounded hover:bg-neutral-50 cursor-pointer flex justify-between items-center";
                 div.onclick = () => { selectedSetId = s.id; renderSetDetail(s.id); changeView("view-set-detail"); };
-                div.innerHTML = `<div><span class="font-bold">${escapeHtml(s.name)}</span></div><span class="text-xs bg-neutral-100 px-2 py-0.5 rounded">${s.count || 0}완주</span>`;
+                div.innerHTML = `<div><span class="font-bold">${escapeHtml(s.name)}</span></div><span class="text-xs bg-neutral-100 px-2 py-0.5 rounded">${s.count || 0}</span>`;
                 listEl.appendChild(div);
             });
         }
