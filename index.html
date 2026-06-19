@@ -148,14 +148,14 @@
                 </div>
                 <div class="flex gap-2">
                     <button onclick="openSetDataEdit()" class="text-xs border border-neutral-300 px-2.5 py-1 rounded hover:bg-neutral-50 transition-colors">데이터 관리</button>
-                    <button onclick="triggerSetDelete()" class="text-xs text-red-500 border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition-colors">묶음 삭제</button>
+                    <button onclick="triggerSetDelete()" class="text-xs text-red-500 border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition-colors">x</button>
                 </div>
             </div>
 
             <!-- 이어하기 안내 배너 -->
             <div id="resume-banner" class="hidden border border-neutral-900 p-4 rounded bg-neutral-50 space-y-2">
                 <p class="text-xs font-semibold text-neutral-800">⚠️ 학습 중이던 데이터가 존재합니다.</p>
-                <p class="text-xs text-neutral-500" id="resume-details">학습 모드: 암기 / 난이도: 메</p>
+                <p class="text-xs text-neutral-500" id="resume-details">암기 / 메</p>
                 <div class="flex gap-2 pt-1">
                     <button onclick="resumeStudy()" class="text-xs bg-neutral-900 text-white px-3 py-1.5 rounded hover:bg-neutral-800 transition-colors">이어서 학습하기</button>
                     <button onclick="clearResumeData()" class="text-xs border border-neutral-300 px-2.5 py-1.5 rounded text-neutral-500 hover:bg-neutral-100 transition-colors">새로 시작</button>
@@ -166,8 +166,8 @@
             <div class="bg-neutral-50 p-3 rounded border border-neutral-200 flex items-center justify-between">
                 <span class="text-xs font-medium text-neutral-600">난이도 선택</span>
                 <div class="flex border border-neutral-300 rounded overflow-hidden">
-                    <button id="diff-me-btn" onclick="setDifficulty('ME')" class="px-4 py-1.5 text-xs font-bold bg-neutral-900 text-white transition-all">메 (기본)</button>
-                    <button id="diff-mo-btn" onclick="setDifficulty('MO')" class="px-4 py-1.5 text-xs font-bold bg-white text-neutral-700 hover:bg-neutral-100 transition-all">모 (심화 복습)</button>
+                    <button id="diff-me-btn" onclick="setDifficulty('ME')" class="px-4 py-1.5 text-xs font-bold bg-neutral-900 text-white transition-all">  메  </button>
+                    <button id="diff-mo-btn" onclick="setDifficulty('MO')" class="px-4 py-1.5 text-xs font-bold bg-white text-neutral-700 hover:bg-neutral-100 transition-all">  모  </button>
                 </div>
             </div>
 
