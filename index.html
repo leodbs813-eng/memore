@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>  
 <html lang="ko">  
 <head>  
@@ -386,13 +386,13 @@
             <!-- 루리드래곤 축하 이미지 프레임 카드 -->  
             <div class="max-w-xs mx-auto border-2 border-neutral-900/40 rounded-xl overflow-hidden bg-white/40 shadow-md">  
                 <div id="ruri-img-container" class="relative w-full aspect-[3/4] bg-neutral-500/5 flex items-center justify-center text-center p-4">  
-                    <!-- 랜덤 ruri.png 바인딩 -->  
-                    <img id="complete-ruri-img" src="ruri/ruri1.png" alt="루리드래곤 축하" class="w-full h-full object-cover transition-opacity duration-300 opacity-100" onerror="handleRuriImgError()">  
+                    <!-- 랜덤 ruri 이미지 바인딩 (확장자가 다르므로 js에서 알맞게 호출) -->  
+                    <img id="complete-ruri-img" src="ruri/ruri1.JPG" alt="루리드래곤 축하" class="w-full h-full object-cover transition-opacity duration-300 opacity-100" onerror="handleRuriImgError()">  
                     <!-- 대체 레이아웃 -->  
                     <div id="complete-ruri-fallback" class="hidden absolute inset-0 flex flex-col justify-center items-center p-6 space-y-2">  
                         <div class="text-4xl text-inherit">🐉🐲</div>  
                         <div class="text-xs font-bold">참 잘했어요! (루리드래곤)</div>  
-                        <div class="text-[10px] opacity-50">ruri/ruri1.png, ruri2.png 파일이 ruri 폴더에 준비되면 그림이 출력됩니다!</div>  
+                        <div class="text-[10px] opacity-50">ruri/ruri1.JPG, ruri2.WEBP 파일이 ruri 폴더에 준비되면 그림이 출력됩니다!</div>  
                     </div>  
                 </div>  
             </div>  
@@ -415,7 +415,7 @@
                     <h2 class="text-lg font-bold">데이터 세부 관리</h2>  
                     <p class="text-xs opacity-50 mt-1">각 모드별 카드 정보를 구성합니다.</p>  
                 </div>  
-                <button onclick="saveAndExitDataEdit()" class="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 px-3 py-1.5 rounded text-xs font-bold hover:bg-neutral-800">저장 및 종료</button>  
+                <button onclick="saveAndExitDataEdit()" class="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 px-3 py-1.5 rounded text-xs font-bold hover:opacity-90">저장 및 종료</button>  
             </div>  
   
             <!-- 탭 선택기 -->  
@@ -574,9 +574,9 @@
                         <div class="text-[10px] opacity-60">눈의 피로를 최소화하는 따뜻한 빈티지 북 스킨</div>  
                     </div>  
                 </button>  
-                <!-- 루리드래곤 테마 (로고를 ruri3.png 배경칩으로 바인딩) -->  
+                <!-- 루리드래곤 테마 (로고를 ruri3.WEBP 배경칩으로 바인딩) -->  
                 <button onclick="selectTheme('ruri')" class="w-full flex items-center gap-3 p-3 rounded-lg border border-[#a3c2ce] hover:bg-[#eae1d3] text-[#2b4c59] bg-[#f5efe6] transition-colors text-left">  
-                    <span class="w-6 h-6 rounded-full bg-cover bg-center shrink-0 border border-[#a3c2ce]" style="background-image: url('ruri/ruri3.png');"></span>  
+                    <span class="w-6 h-6 rounded-full bg-cover bg-center shrink-0 border border-[#a3c2ce]" style="background-image: url('ruri/ruri3.WEBP');"></span>  
                     <div class="flex-1">  
                         <div class="text-xs font-bold">루리드래곤 (Ruri)</div>  
                         <div class="text-[10px] opacity-60">루리의 일상 무드를 닮은 청록베이지 만화 감성 스킨</div>  
@@ -714,7 +714,7 @@
                     colorDot.className += " bg-[#f7f4eb] border-neutral-400";  
                 } else if (theme === "ruri") {  
                     colorDot.className += " border-[#a3c2ce]";  
-                    colorDot.style.backgroundImage = "url('ruri/ruri3.png')";  
+                    colorDot.style.backgroundImage = "url('ruri/ruri3.WEBP')";  
                 }  
             }  
   
@@ -1342,21 +1342,23 @@
             document.getElementById("complete-count-before").innerText = set.count - 1;  
             document.getElementById("complete-count-after").innerText = set.count;  
   
-            // [🎉 ruri.png 랜덤 선택 바인딩 및 표시 로직]  
+            // [🎉 ruri 이미지 랜덤 선택 바인딩 및 표시 로직]  
             const ruriImg = document.getElementById("complete-ruri-img");  
             const ruriFallback = document.getElementById("complete-ruri-fallback");  
             if (ruriImg && ruriFallback) {  
                 ruriImg.classList.remove("hidden");  
                 ruriFallback.classList.add("hidden");  
-                // ruri1.png, ruri2.png 중 하나를 랜덤으로 지정  
-                const randomNum = Math.floor(Math.random() * 2) + 1;  
-                ruriImg.src = `ruri/ruri${randomNum}.png`;  
+                
+                // 확장자가 다른 JPG와 WEBP 이미지를 배열에서 랜덤 선택하도록 수정
+                const ruriImages = ["ruri/ruri1.JPG", "ruri/ruri2.WEBP"];  
+                const randomIndex = Math.floor(Math.random() * ruriImages.length);  
+                ruriImg.src = ruriImages[randomIndex];  
             }  
   
             changeView("view-study-complete");  
         }  
   
-        // ruri.png 이미지 로드 실패 시 원활한 플레이스홀더 제공용 에러 헨들러  
+        // ruri 이미지 로드 실패 시 원활한 플레이스홀더 제공용 에러 헨들러  
         function handleRuriImgError() {  
             const ruriImg = document.getElementById("complete-ruri-img");  
             const ruriFallback = document.getElementById("complete-ruri-fallback");  
@@ -1587,4 +1589,3 @@
 </body>  
 </html>  
 
-```
