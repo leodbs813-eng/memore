@@ -1351,9 +1351,9 @@
                     const selectedImg = ruriImages[randomIndex];      
                     ruriImg.src = selectedImg;      
             
-                    // ruri1.JPG의 경우 여백이 있어 상대적으로 작게 노출되므로, object-cover 및 살짝의 scale 확장을 통해 ruri2와 밸런스를 맞춤      
+                    // ruri1.JPG의 경우 위쪽의 여백 공백을 커팅하고 아래쪽 캐릭터 본체를 살리도록 object-bottom 정렬  
                     if (selectedImg.includes("ruri1")) {      
-                        ruriImg.className = "w-full h-full object-cover rounded-lg scale-115 transition-opacity duration-300 opacity-100";      
+                        ruriImg.className = "w-full h-full object-cover object-bottom rounded-lg scale-115 transition-opacity duration-300 opacity-100";      
                     } else {      
                         ruriImg.className = "w-full h-full object-contain transition-opacity duration-300 opacity-100";      
                     }      
@@ -1600,4 +1600,3 @@
     </script>      
 </body>      
 </html>      
-
