@@ -387,12 +387,12 @@
             <div class="max-w-xs mx-auto border-2 border-neutral-900/40 rounded-xl overflow-hidden bg-white/40 shadow-md">  
                 <div id="ruri-img-container" class="relative w-full aspect-[3/4] bg-neutral-500/5 flex items-center justify-center text-center p-4">  
                     <!-- 랜덤 ruri 이미지 바인딩 (확장자가 다르므로 js에서 알맞게 호출) -->  
-                    <img id="complete-ruri-img" src="ruri/ruri1.JPG" alt="루리드래곤 축하" class="w-full h-full object-cover transition-opacity duration-300 opacity-100" onerror="handleRuriImgError()">  
+                    <img id="complete-ruri-img" src="./ruri/ruri1.JPG" alt="루리드래곤 축하" class="w-full h-full object-cover transition-opacity duration-300 opacity-100" onerror="handleRuriImgError()">  
                     <!-- 대체 레이아웃 -->  
                     <div id="complete-ruri-fallback" class="hidden absolute inset-0 flex flex-col justify-center items-center p-6 space-y-2">  
                         <div class="text-4xl text-inherit">🐉🐲</div>  
                         <div class="text-xs font-bold">참 잘했어요! (루리드래곤)</div>  
-                        <div class="text-[10px] opacity-50">ruri/ruri1.JPG, ruri2.WEBP 파일이 ruri 폴더에 준비되면 그림이 출력됩니다!</div>  
+                        <div class="text-[10px] opacity-50">./ruri/ruri1.JPG, ruri2.WEBP 파일이 ruri 폴더에 준비되면 그림이 출력됩니다!</div>  
                     </div>  
                 </div>  
             </div>  
@@ -576,7 +576,7 @@
                 </button>  
                 <!-- 루리드래곤 테마 (로고를 ruri3.WEBP 배경칩으로 바인딩) -->  
                 <button onclick="selectTheme('ruri')" class="w-full flex items-center gap-3 p-3 rounded-lg border border-[#a3c2ce] hover:bg-[#eae1d3] text-[#2b4c59] bg-[#f5efe6] transition-colors text-left">  
-                    <span class="w-6 h-6 rounded-full bg-cover bg-center shrink-0 border border-[#a3c2ce]" style="background-image: url('ruri/ruri3.WEBP');"></span>  
+                    <span class="w-6 h-6 rounded-full bg-cover bg-center shrink-0 border border-[#a3c2ce]" style="background-image: url('./ruri/ruri3.WEBP');"></span>  
                     <div class="flex-1">  
                         <div class="text-xs font-bold">루리드래곤 (Ruri)</div>  
                         <div class="text-[10px] opacity-60">루리의 일상 무드를 닮은 청록베이지 만화 감성 스킨</div>  
@@ -714,7 +714,7 @@
                     colorDot.className += " bg-[#f7f4eb] border-neutral-400";  
                 } else if (theme === "ruri") {  
                     colorDot.className += " border-[#a3c2ce]";  
-                    colorDot.style.backgroundImage = "url('ruri/ruri3.WEBP')";  
+                    colorDot.style.backgroundImage = "url('./ruri/ruri3.WEBP')";  
                 }  
             }  
   
@@ -1350,7 +1350,7 @@
                 ruriFallback.classList.add("hidden");  
                 
                 // 확장자가 다른 JPG와 WEBP 이미지를 배열에서 랜덤 선택하도록 수정
-                const ruriImages = ["ruri/ruri1.JPG", "ruri/ruri2.WEBP"];  
+                const ruriImages = ["./ruri/ruri1.JPG", "./ruri/ruri2.WEBP"];  
                 const randomIndex = Math.floor(Math.random() * ruriImages.length);  
                 ruriImg.src = ruriImages[randomIndex];  
             }  
