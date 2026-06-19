@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>  
 <html lang="ko">  
 <head>  
@@ -13,28 +14,27 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght=300;400;500;700&display=swap');  
         body {  
             font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;  
-            background-color: #ffffff;  
-            color: #111111;  
             /* 모바일에서 길게 누를 때 텍스트 선택 및 팝업창 완전 방지 */  
             -webkit-user-select: none;  
             -moz-user-select: none;  
             -ms-user-select: none;  
             user-select: none;  
             -webkit-touch-callout: none;  
+            transition: background-color 0.3s ease, color 0.3s ease;  
         }  
         ::-webkit-scrollbar {  
             width: 4px;  
             height: 4px;  
         }  
         ::-webkit-scrollbar-track {  
-            background: #f1f1f1;  
+            background: rgba(0, 0, 0, 0.05);  
         }  
         ::-webkit-scrollbar-thumb {  
-            background: #888;  
+            background: rgba(0, 0, 0, 0.2);  
             border-radius: 2px;  
         }  
         ::-webkit-scrollbar-thumb:hover {  
-            background: #555;  
+            background: rgba(0, 0, 0, 0.4);  
         }  
   
         /* 3D 플립 카드 효과 설정 */  
@@ -61,6 +61,7 @@
             width: 100%;  
             height: 100%;  
             border-radius: 0.5rem;  
+            transition: background-color 0.3s ease, border-color 0.3s ease;  
         }  
         .flip-card-back {  
             transform: rotateY(180deg);  
@@ -68,7 +69,7 @@
   
         /* 드래그앤드롭 배열 아이템 스타일링 */  
         .drag-item {  
-            transition: transform 0.15s ease, box-shadow 0.15s ease;  
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.3s ease;  
             cursor: grab;  
             touch-action: none;  
         }  
@@ -81,19 +82,82 @@
             transform: scale(1.02);  
             z-index: 40;  
         }  
+  
+        /* ==================== 테마별 스타일 정의 (카드 배경 100% 동일화) ==================== */  
+        
+        /* 1. 화이트 테마 */  
+        body.theme-white {  
+            background-color: #ffffff;  
+            color: #111111;  
+        }  
+        body.theme-white .flip-card-front,  
+        body.theme-white .flip-card-back {  
+            background-color: #ffffff;  
+            border-color: #111111;  
+        }  
+        body.theme-white .app-card-bg {  
+            background-color: #ffffff;  
+        }  
+  
+        /* 2. 다크 테마 */  
+        body.theme-dark {  
+            background-color: #1a1a1a;  
+            color: #e5e5e5;  
+        }  
+        body.theme-dark .flip-card-front,  
+        body.theme-dark .flip-card-back {  
+            background-color: #262626;  
+            border-color: #404040;  
+        }  
+        body.theme-dark .app-card-bg {  
+            background-color: #262626;  
+        }  
+  
+        /* 3. 아이보리 테마 */  
+        body.theme-ivory {  
+            background-color: #f7f4eb;  
+            color: #2b2927;  
+        }  
+        body.theme-ivory .flip-card-front,  
+        body.theme-ivory .flip-card-back {  
+            background-color: #fcfbfa;  
+            border-color: #d1cbbe;  
+        }  
+        body.theme-ivory .app-card-bg {  
+            background-color: #fcfbfa;  
+        }  
+  
+        /* 4. 루리드래곤 테마 */  
+        body.theme-ruri {  
+            background-color: #f5efe6;  
+            color: #2b4c59;  
+        }  
+        body.theme-ruri .flip-card-front,  
+        body.theme-ruri .flip-card-back {  
+            background-color: #fcfbf9;  
+            border-color: #a3c2ce;  
+        }  
+        body.theme-ruri .app-card-bg {  
+            background-color: #fcfbf9;  
+        }  
     </style>  
 </head>  
-<body class="min-h-screen flex flex-col justify-between selection:bg-neutral-200">  
+<body class="min-h-screen flex flex-col justify-between selection:bg-neutral-200 theme-white">  
   
     <!-- 상단 헤더 -->  
-    <header class="border-b border-neutral-200 py-4 px-6 sticky top-0 bg-white z-50">  
+    <header class="border-b border-neutral-200 py-4 px-6 sticky top-0 bg-inherit z-50 transition-colors">  
         <div class="max-w-md mx-auto flex items-center justify-between">  
             <button onclick="goHome()" class="text-xl font-bold tracking-widest hover:opacity-70 transition-opacity">메모RE</button>  
-            <div class="flex items-center gap-3">  
-                <button onclick="toggleHelpModal()" class="w-8 h-8 flex items-center justify-center border border-neutral-300 rounded text-sm hover:bg-neutral-50 transition-colors" title="도움말">  
+            <div class="flex items-center gap-2">  
+                <!-- 테마 설정 버튼 (현재 테마의 주조색상 또는 루리 뿔 심플 아이콘) -->  
+                <button id="theme-btn" onclick="toggleThemeModal()" class="w-8 h-8 flex items-center justify-center border border-neutral-300 rounded overflow-hidden hover:opacity-80 transition-all" title="테마 변경">  
+                    <!-- 단색 컬러 혹은 루리 뿔 이미지가 렌더링되는 곳 -->  
+                    <span id="theme-btn-color" class="w-5 h-5 rounded-full border border-neutral-400 bg-cover bg-center transition-all"></span>  
+                </button>  
+                <button onclick="toggleHelpModal()" class="w-8 h-8 flex items-center justify-center border border-neutral-300 rounded text-sm hover:opacity-80 transition-colors" title="도움말">  
                     ❓  
                 </button>  
-                <button id="back-btn" onclick="goBack()" class="hidden px-2.5 py-1 text-xs border border-neutral-300 rounded hover:bg-neutral-50 transition-colors">  
+                <button id="back-btn" onclick="goBack()" class="hidden px-2.5 py-1 text-xs border border-neutral-300 rounded hover:opacity-80 transition-colors">  
                     &lt;--  
                 </button>  
             </div>  
@@ -107,10 +171,10 @@
         <section id="view-home" class="space-y-6">  
             <div class="flex justify-between items-center">  
                 <div class="flex items-center gap-2">  
-                    <h2 class="text-sm tracking-wider text-neutral-500 font-medium">폴더 목록</h2>  
+                    <h2 class="text-sm tracking-wider opacity-60 font-medium">폴더 목록</h2>  
                     <span id="sync-status-indicator" class="w-2 h-2 rounded-full bg-neutral-300" title="클라우드 비동기화"></span>  
                 </div>  
-                <button onclick="openFolderAddModal()" class="text-xs border border-neutral-300 px-2 py-1 rounded hover:bg-neutral-50 transition-colors">+</button>  
+                <button onclick="openFolderAddModal()" class="text-xs border border-neutral-300 px-2 py-1 rounded hover:bg-neutral-50/10 transition-colors">+</button>  
             </div>  
               
             <div id="folder-list" class="space-y-3">  
@@ -122,16 +186,16 @@
         <section id="view-folder-detail" class="hidden space-y-6">  
             <div class="border-b border-neutral-200 pb-3">  
                 <div class="flex items-center justify-between">  
-                    <h2 id="current-folder-title" class="text-xl font-bold text-neutral-900">폴더명</h2>  
+                    <h2 id="current-folder-title" class="text-xl font-bold">폴더명</h2>  
                     <div class="flex gap-2">  
-                        <button onclick="triggerFolderDelete()" class="text-xs text-red-500 border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition-colors">x</button>  
+                        <button onclick="triggerFolderDelete()" class="text-xs text-red-500 border border-red-200 px-2 py-1 rounded hover:bg-red-50/10 transition-colors">x</button>  
                     </div>  
                 </div>  
             </div>  
   
             <div class="flex justify-between items-center">  
-                <h3 class="text-sm tracking-wider text-neutral-500 font-medium">암기 묶음</h3>  
-                <button onclick="openSetAddModal()" class="text-xs border border-neutral-300 px-2 py-1 rounded hover:bg-neutral-50 transition-colors">+</button>  
+                <h3 class="text-sm tracking-wider opacity-60 font-medium">암기 묶음</h3>  
+                <button onclick="openSetAddModal()" class="text-xs border border-neutral-300 px-2 py-1 rounded hover:bg-neutral-50/10 transition-colors">+</button>  
             </div>  
   
             <div id="set-list" class="space-y-3">  
@@ -143,70 +207,70 @@
         <section id="view-set-detail" class="hidden space-y-6">  
             <div class="border-b border-neutral-200 pb-3 flex justify-between items-center">  
                 <div>  
-                    <h2 id="current-set-title" class="text-xl font-bold text-neutral-900">묶음명</h2>  
-                    <p class="text-xs text-neutral-400 mt-1">완주 횟수: <span id="current-set-count" class="font-bold">0</span>회</p>  
+                    <h2 id="current-set-title" class="text-xl font-bold">묶음명</h2>  
+                    <p class="text-xs opacity-50 mt-1">완주 횟수: <span id="current-set-count" class="font-bold">0</span>회</p>  
                 </div>  
                 <div class="flex gap-2">  
-                    <button onclick="openSetDataEdit()" class="text-xs border border-neutral-300 px-2.5 py-1 rounded hover:bg-neutral-50 transition-colors">데이터 관리</button>  
-                    <button onclick="triggerSetDelete()" class="text-xs text-red-500 border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition-colors">x</button>  
+                    <button onclick="openSetDataEdit()" class="text-xs border border-neutral-300 px-2.5 py-1 rounded hover:bg-neutral-50/10 transition-colors">데이터 관리</button>  
+                    <button onclick="triggerSetDelete()" class="text-xs text-red-500 border border-red-200 px-2 py-1 rounded hover:bg-red-50/10 transition-colors">x</button>  
                 </div>  
             </div>  
   
             <!-- 이어하기 안내 배너 -->  
-            <div id="resume-banner" class="hidden border border-neutral-900 p-4 rounded bg-neutral-50 space-y-2">  
-                <p class="text-xs font-semibold text-neutral-800">⚠️ 학습 중이던 데이터가 존재합니다.</p>  
-                <p class="text-xs text-neutral-500" id="resume-details">학습모드: 암기 / 난이도: 메</p>  
+            <div id="resume-banner" class="hidden border border-neutral-900/40 p-4 rounded bg-neutral-500/5 space-y-2">  
+                <p class="text-xs font-semibold text-inherit">⚠️ 학습 중이던 데이터가 존재합니다.</p>  
+                <p class="text-xs opacity-60" id="resume-details">학습모드: 암기 / 난이도: 메</p>  
                 <div class="flex gap-2 pt-1">  
-                    <button onclick="resumeStudy()" class="text-xs bg-neutral-900 text-white px-3 py-1.5 rounded hover:bg-neutral-800 transition-colors">이어서 학습하기</button>  
-                    <button onclick="clearResumeData()" class="text-xs border border-neutral-300 px-2.5 py-1.5 rounded text-neutral-500 hover:bg-neutral-100 transition-colors">새로 시작</button>  
+                    <button onclick="resumeStudy()" class="text-xs bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 px-3 py-1.5 rounded hover:opacity-90 transition-colors">이어서 학습하기</button>  
+                    <button onclick="clearResumeData()" class="text-xs border border-neutral-300 px-2.5 py-1.5 rounded opacity-60 hover:bg-neutral-500/10 transition-colors">새로 시작</button>  
                 </div>  
             </div>  
   
             <!-- 난이도 선택 (메 / 모) -->  
-            <div class="bg-neutral-50 p-3 rounded border border-neutral-200 flex items-center justify-between">  
-                <span class="text-xs font-medium text-neutral-600">난이도 선택</span>  
+            <div class="bg-neutral-500/5 p-3 rounded border border-neutral-200/40 flex items-center justify-between">  
+                <span class="text-xs font-medium opacity-80">난이도 선택</span>  
                 <div class="flex border border-neutral-300 rounded overflow-hidden">  
-                    <button id="diff-me-btn" onclick="setDifficulty('ME')" class="px-4 py-1.5 text-xs font-bold bg-neutral-900 text-white transition-all">  메  </button>  
-                    <button id="diff-mo-btn" onclick="setDifficulty('MO')" class="px-4 py-1.5 text-xs font-bold bg-white text-neutral-700 hover:bg-neutral-100 transition-all">  모  </button>  
+                    <button id="diff-me-btn" onclick="setDifficulty('ME')" class="px-4 py-1.5 text-xs font-bold transition-all">  메  </button>  
+                    <button id="diff-mo-btn" onclick="setDifficulty('MO')" class="px-4 py-1.5 text-xs font-bold transition-all">  모  </button>  
                 </div>  
             </div>  
   
             <!-- 3가지 학습 모드 버튼 -->  
             <div class="space-y-3 pt-2">  
-                <button onclick="startStudy('MEMORIZE')" class="w-full border border-neutral-900 p-5 text-left rounded hover:bg-neutral-50 transition-all flex justify-between items-center group">  
+                <button onclick="startStudy('MEMORIZE')" class="w-full border border-neutral-900/40 p-5 text-left rounded hover:bg-neutral-500/5 transition-all flex justify-between items-center group">  
                     <div>  
-                        <span class="text-base font-bold text-neutral-900">암기 모드</span>  
-                        <p class="text-xs text-neutral-500 mt-1">카드를 터치해 뒤집고, 양옆 슬라이드로 외움 상태를 분류합니다.</p>  
+                        <span class="text-base font-bold text-inherit">암기 모드</span>  
+                        <p class="text-xs opacity-60 mt-1">카드를 터치해 뒤집고, 양옆 슬라이드로 외움 상태를 분류합니다.</p>  
                     </div>  
-                    <span class="text-neutral-300 group-hover:text-neutral-900 transition-colors">→</span>  
+                    <span class="opacity-30 group-hover:opacity-100 transition-colors">→</span>  
                 </button>  
   
-                <button onclick="startStudy('SEQUENCE')" class="w-full border border-neutral-900 p-5 text-left rounded hover:bg-neutral-50 transition-all flex justify-between items-center group">  
+                <button onclick="startStudy('SEQUENCE')" class="w-full border border-neutral-900/40 p-5 text-left rounded hover:bg-neutral-500/5 transition-all flex justify-between items-center group">  
                     <div>  
-                        <span class="text-base font-bold text-neutral-900">배열 모드</span>  
-                        <p class="text-xs text-neutral-500 mt-1">드래그앤드롭으로 순서를 정렬하고 중요 성격과 뜻을 검증합니다.</p>  
+                        <span class="text-base font-bold text-inherit">배열 모드</span>  
+                        <p class="text-xs opacity-60 mt-1">드래그앤드롭으로 순서를 정렬하고 중요 성격과 뜻을 검증합니다.</p>  
                     </div>  
-                    <span class="text-neutral-300 group-hover:text-neutral-900 transition-colors">→</span>  
+                    <span class="opacity-30 group-hover:opacity-100 transition-colors">→</span>  
                 </button>  
   
-                <button onclick="startStudy('CLASSIFY')" class="w-full border border-neutral-900 p-5 text-left rounded hover:bg-neutral-50 transition-all flex justify-between items-center group">  
+                <button onclick="startStudy('CLASSIFY')" class="w-full border border-neutral-900/40 p-5 text-left rounded hover:bg-neutral-500/5 transition-all flex justify-between items-center group">  
                     <div>  
-                        <span class="text-base font-bold text-neutral-900">분류 모드</span>  
-                        <p class="text-xs text-neutral-500 mt-1">카드를 터치하여 명칭과 상세 힌트를 보며 분류군에 매칭시킵니다.</p>  
+                        <span class="text-base font-bold text-inherit">분류 모드</span>  
+                        <p class="text-xs opacity-60 mt-1">카드를 터치하여 명칭과 상세 힌트를 보며 분류군에 매칭시킵니다.</p>  
                     </div>  
-                    <span class="text-neutral-300 group-hover:text-neutral-900 transition-colors">→</span>  
+                    <span class="opacity-30 group-hover:opacity-100 transition-colors">→</span>  
                 </button>  
             </div>  
         </section>  
   
         <!-- [4] 학습 화면 - 암기 모드 (MEMORIZE) -->  
         <section id="view-study-memorize" class="hidden space-y-6">  
-            <div class="flex justify-between items-center text-xs text-neutral-500 border-b border-neutral-100 pb-2">  
+            <div class="flex justify-between items-center text-xs opacity-60 border-b border-neutral-200/40 pb-2">  
                 <div>암기 모드 (<span id="memorize-diff-label">메</span>)</div>  
-                <div>남은 카드: <span id="memorize-left-count" class="font-bold text-neutral-900">0</span>장</div>  
+                <div>남은 카드: <span id="memorize-left-count" class="font-bold text-inherit">0</span>장</div>  
             </div>  
   
-            <p class="text-[11px] text-neutral-400 text-center select-none" id="swipe-guide-text">  
+            <p class="text-[11px] opacity-50 text-center select-none" id="swipe-guide-text">  
                 💡 카드를 탭하면 뒤집어집니다. 양옆으로 끌어다 던질 수도 있습니다.  
             </p>  
   
@@ -217,18 +281,18 @@
                       
                     <!-- 내부 3D 플립 전용 카드 -->  
                     <div class="card-perspective">  
-                        <div id="memorize-flip-card-inner" class="flip-card-inner border border-neutral-900 rounded-lg shadow-sm">  
+                        <div id="memorize-flip-card-inner" class="flip-card-inner border border-neutral-900/40 rounded-lg shadow-sm">  
                             <!-- 앞면 -->  
-                            <div class="flip-card-front bg-white flex flex-col justify-between p-6 select-none pointer-events-none">  
-                                <span class="text-xs text-neutral-400 uppercase tracking-widest font-mono">Front (앞면)</span>  
-                                <div class="text-center text-lg font-bold text-neutral-900 my-auto px-4" id="memorize-front-text">앞면</div>  
-                                <span class="text-xs text-center text-neutral-400">터치 시 뒤집어집니다.</span>  
+                            <div class="flip-card-front flex flex-col justify-between p-6 select-none pointer-events-none">  
+                                <span class="text-xs opacity-40 uppercase tracking-widest font-mono">Front (앞면)</span>  
+                                <div class="text-center text-lg font-bold text-inherit my-auto px-4" id="memorize-front-text">앞면</div>  
+                                <span class="text-xs text-center opacity-40">터치 시 뒤집어집니다.</span>  
                             </div>  
                             <!-- 뒷면 -->  
-                            <div class="flip-card-back bg-neutral-50 flex flex-col justify-between p-6 select-none pointer-events-none">  
-                                <span class="text-xs text-neutral-500 uppercase tracking-widest font-mono">Back (뒷면 / 뜻)</span>  
-                                <div class="text-center text-lg font-bold text-neutral-900 my-auto px-4" id="memorize-back-text">뒷면</div>  
-                                <span class="text-xs text-center text-neutral-400">외우셨다면 오른쪽, 모르면 왼쪽 슬라이드</span>  
+                            <div class="flip-card-back flex flex-col justify-between p-6 select-none pointer-events-none">  
+                                <span class="text-xs opacity-50 uppercase tracking-widest font-mono">Back (뒷면 / 뜻)</span>  
+                                <div class="text-center text-lg font-bold text-inherit my-auto px-4" id="memorize-back-text">뒷면</div>  
+                                <span class="text-xs text-center opacity-40">외우셨다면 오른쪽, 모르면 왼쪽 슬라이드</span>  
                             </div>  
                         </div>  
                     </div>  
@@ -238,36 +302,36 @@
   
             <!-- '모' 난이도 정답 입력창 -->  
             <div id="memorize-input-area" class="hidden space-y-3">  
-                <label class="block text-xs font-medium text-neutral-500">답변 직접 입력</label>  
+                <label class="block text-xs font-medium opacity-60">답변 직접 입력</label>  
                 <div class="flex gap-2">  
-                    <input type="text" id="memorize-user-input" placeholder="정답(뒷면)을 입력해 주세요" class="flex-grow border border-neutral-900 p-2.5 text-sm rounded focus:outline-none" onkeydown="if(event.key === 'Enter') checkMemorizeInput()">  
-                    <button onclick="checkMemorizeInput()" class="bg-neutral-900 text-white px-5 rounded text-sm font-bold hover:bg-neutral-800">확인</button>  
+                    <input type="text" id="memorize-user-input" placeholder="정답(뒷면)을 입력해 주세요" class="flex-grow border border-neutral-900/40 p-2.5 text-sm rounded focus:outline-none bg-inherit text-inherit" onkeydown="if(event.key === 'Enter') checkMemorizeInput()">  
+                    <button onclick="checkMemorizeInput()" class="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 px-5 rounded text-sm font-bold hover:opacity-90">확인</button>  
                 </div>  
                 <div id="memorize-feedback" class="hidden p-3 border rounded text-xs"></div>  
             </div>  
   
-            <div class="w-full bg-neutral-100 h-1.5 rounded-full overflow-hidden">  
-                <div id="memorize-progress-bar" class="bg-neutral-900 h-full transition-all duration-300" style="width: 0%"></div>  
+            <div class="w-full bg-neutral-500/10 h-1.5 rounded-full overflow-hidden">  
+                <div id="memorize-progress-bar" class="bg-neutral-900 dark:bg-neutral-100 h-full transition-all duration-300" style="width: 0%"></div>  
             </div>  
         </section>  
   
         <!-- [5] 배열 모드 (SEQUENCE) -->  
         <section id="view-study-sequence" class="hidden space-y-6">  
-            <div class="flex justify-between items-center text-xs text-neutral-500 border-b border-neutral-100 pb-2">  
+            <div class="flex justify-between items-center text-xs opacity-60 border-b border-neutral-200/40 pb-2">  
                 <div>배열 모드 (<span id="sequence-diff-label">메</span>)</div>  
-                <div class="text-xs text-neutral-400">순서 재배치 및 채점</div>  
+                <div class="text-xs opacity-40">순서 재배치 및 채점</div>  
             </div>  
   
-            <p class="text-xs text-neutral-500 text-center select-none">  
+            <p class="text-xs opacity-60 text-center select-none">  
                 💡 항목을 드래그하여 위아래로 올바른 순서를 정렬하세요.  
-                <span id="seq-guide-mo" class="block font-bold text-neutral-900 mt-1 hidden">⚠️ '모' 난이도: 순서 정렬 후 각 항목에 들어갈 뜻(설명)도 기입하세요!</span>  
+                <span id="seq-guide-mo" class="block font-bold text-inherit mt-1 hidden">⚠️ '모' 난이도: 순서 정렬 후 각 항목에 들어갈 뜻(설명)도 기입하세요!</span>  
             </p>  
   
             <div id="sequence-list-container" class="space-y-2.5 relative select-none"></div>  
   
             <div class="space-y-3">  
                 <div id="sequence-feedback" class="hidden p-4 border rounded text-xs text-center font-bold"></div>  
-                <button onclick="checkSequenceAnswer()" class="w-full bg-neutral-900 text-white p-3.5 rounded text-sm font-bold hover:bg-neutral-800 transition-colors">  
+                <button onclick="checkSequenceAnswer()" class="w-full bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 p-3.5 rounded text-sm font-bold hover:opacity-90 transition-colors">  
                     정답 확인 (채점)  
                 </button>  
             </div>  
@@ -275,30 +339,30 @@
   
         <!-- [6] 분류 모드 (CLASSIFY) -->  
         <section id="view-study-classify" class="hidden space-y-6">  
-            <div class="flex justify-between items-center text-xs text-neutral-500 border-b border-neutral-100 pb-2">  
+            <div class="flex justify-between items-center text-xs opacity-60 border-b border-neutral-200/40 pb-2">  
                 <div>분류 모드 (<span id="classify-diff-label">메</span>)</div>  
-                <div>남은 카드: <span id="classify-left-count" class="font-bold text-neutral-900">0</span>장</div>  
+                <div>남은 카드: <span id="classify-left-count" class="font-bold text-inherit">0</span>장</div>  
             </div>  
   
-            <p class="text-[11px] text-neutral-400 text-center select-none">  
+            <p class="text-[11px] opacity-40 text-center select-none">  
                 💡 대상을 탭하여 뒤집으면 상세 내용/힌트를 확인할 수 있습니다.  
             </p>  
   
             <!-- 분류 대상 카드 플립 시스템 적용 -->  
             <div id="classify-card-wrapper" class="relative h-48 w-full cursor-pointer" onclick="flipClassifyCard()">  
                 <div class="card-perspective">  
-                    <div id="classify-flip-card-inner" class="flip-card-inner border border-neutral-900 rounded-lg shadow-sm">  
+                    <div id="classify-flip-card-inner" class="flip-card-inner border border-neutral-900/40 rounded-lg shadow-sm">  
                         <!-- 앞면 -->  
-                        <div class="flip-card-front bg-white flex flex-col justify-between p-5 select-none">  
-                            <span class="text-xs text-neutral-400 font-mono">CLASSIFY TARGET</span>  
-                            <h3 id="classify-card-name" class="text-xl font-bold text-neutral-900 text-center my-auto">카드 명칭</h3>  
-                            <span class="text-[10px] text-center text-neutral-400">터치하여 내용 뒤집기</span>  
+                        <div class="flip-card-front flex flex-col justify-between p-5 select-none">  
+                            <span class="text-xs opacity-40 font-mono">CLASSIFY TARGET</span>  
+                            <h3 id="classify-card-name" class="text-xl font-bold text-inherit text-center my-auto">카드 명칭</h3>  
+                            <span class="text-[10px] text-center opacity-40">터치하여 내용 뒤집기</span>  
                         </div>  
                         <!-- 뒷면 -->  
-                        <div class="flip-card-back bg-neutral-50 flex flex-col justify-between p-5 select-none">  
-                            <span class="text-xs text-neutral-500 font-mono">DESCRIPTION / HINT</span>  
-                            <p id="classify-card-desc" class="text-sm font-medium text-neutral-800 text-center my-auto px-2">상세 뜻 및 정의 설명</p>  
-                            <span class="text-[10px] text-center text-neutral-400">하단 분류 버튼을 누르세요.</span>  
+                        <div class="flip-card-back flex flex-col justify-between p-5 select-none">  
+                            <span class="text-xs opacity-50 font-mono">DESCRIPTION / HINT</span>  
+                            <p id="classify-card-desc" class="text-sm font-medium text-inherit text-center my-auto px-2">상세 뜻 및 정의 설명</p>  
+                            <span class="text-[10px] text-center opacity-40">하단 분류 버튼을 누르세요.</span>  
                         </div>  
                     </div>  
                 </div>  
@@ -306,86 +370,99 @@
   
             <!-- 분류 선택지 버튼 -->  
             <div class="space-y-2 pt-2">  
-                <span class="block text-xs font-semibold text-neutral-500 mb-1">매칭할 대분류 선택</span>  
+                <span class="block text-xs font-semibold opacity-50 mb-1">매칭할 대분류 선택</span>  
                 <div id="classify-category-buttons" class="grid grid-cols-2 gap-2"></div>  
             </div>  
   
             <div id="classify-feedback" class="hidden p-3 border rounded text-xs font-bold"></div>  
   
-            <div class="w-full bg-neutral-100 h-1.5 rounded-full overflow-hidden">  
-                <div id="classify-progress-bar" class="bg-neutral-900 h-full transition-all duration-300" style="width: 0%"></div>  
+            <div class="w-full bg-neutral-500/10 h-1.5 rounded-full overflow-hidden">  
+                <div id="classify-progress-bar" class="bg-neutral-900 dark:bg-neutral-100 h-full transition-all duration-300" style="width: 0%"></div>  
             </div>  
         </section>  
   
         <!-- [7] 학습 완료 화면 -->  
-        <section id="view-study-complete" class="hidden text-center py-12 space-y-6">  
-            <div class="inline-flex w-16 h-16 bg-neutral-100 text-neutral-900 items-center justify-center rounded-full text-2xl border border-neutral-300">🎉</div>  
+        <section id="view-study-complete" class="hidden text-center py-8 space-y-6">  
+            <!-- 루리드래곤 축하 이미지 프레임 카드 -->  
+            <div class="max-w-xs mx-auto border-2 border-neutral-900/40 rounded-xl overflow-hidden bg-white/40 shadow-md">  
+                <div id="ruri-img-container" class="relative w-full aspect-[3/4] bg-neutral-500/5 flex items-center justify-center text-center p-4">  
+                    <!-- 랜덤 ruri.png 바인딩 -->  
+                    <img id="complete-ruri-img" src="ruri/ruri1.png" alt="루리드래곤 축하" class="w-full h-full object-cover transition-opacity duration-300 opacity-100" onerror="handleRuriImgError()">  
+                    <!-- 대체 레이아웃 -->  
+                    <div id="complete-ruri-fallback" class="hidden absolute inset-0 flex flex-col justify-center items-center p-6 space-y-2">  
+                        <div class="text-4xl text-inherit">🐉🐲</div>  
+                        <div class="text-xs font-bold">참 잘했어요! (루리드래곤)</div>  
+                        <div class="text-[10px] opacity-50">ruri/ruri1.png, ruri2.png 파일이 ruri 폴더에 준비되면 그림이 출력됩니다!</div>  
+                    </div>  
+                </div>  
+            </div>  
+  
             <div class="space-y-2">  
-                <h2 class="text-2xl font-bold text-neutral-900">학습 완료!</h2>  
-                <p class="text-sm text-neutral-500">모든 카드를 정복하여 완주에 성공하셨습니다.</p>  
+                <h2 class="text-2xl font-bold">학습 완료!</h2>  
+                <p class="text-sm opacity-60">모든 단어 및 분류를 정복해 내셨습니다.</p>  
             </div>  
-            <div class="border-y border-neutral-100 py-4 max-w-xs mx-auto text-sm text-neutral-600">  
+            <div class="border-y border-neutral-200/40 py-4 max-w-xs mx-auto text-sm opacity-80">  
                 <p>완주 횟수가 <strong id="complete-count-before">0</strong>회에서</p>  
-                <p class="text-lg font-bold text-neutral-900 mt-1"><span id="complete-count-after">1</span>회로 증가했습니다.</p>  
+                <p class="text-lg font-bold mt-1"><span id="complete-count-after">1</span>회로 증가했습니다.</p>  
             </div>  
-            <button onclick="goToCurrentSetDetail()" class="w-full bg-neutral-900 text-white p-3 rounded text-sm font-bold hover:bg-neutral-800 transition-colors">묶음 홈으로 돌아가기</button>  
+            <button onclick="goToCurrentSetDetail()" class="w-full bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 p-3 rounded text-sm font-bold hover:opacity-90 transition-colors">묶음 홈으로 돌아가기</button>  
         </section>  
   
         <!-- [8] 데이터 관리 화면 -->  
         <section id="view-data-edit" class="hidden space-y-6">  
             <div class="border-b border-neutral-200 pb-3 flex justify-between items-center">  
                 <div>  
-                    <h2 class="text-lg font-bold text-neutral-900">데이터 세부 관리</h2>  
-                    <p class="text-xs text-neutral-500 mt-1">각 모드별 카드 정보를 구성합니다.</p>  
+                    <h2 class="text-lg font-bold">데이터 세부 관리</h2>  
+                    <p class="text-xs opacity-50 mt-1">각 모드별 카드 정보를 구성합니다.</p>  
                 </div>  
-                <button onclick="saveAndExitDataEdit()" class="bg-neutral-900 text-white px-3 py-1.5 rounded text-xs font-bold hover:bg-neutral-800">저장 및 종료</button>  
+                <button onclick="saveAndExitDataEdit()" class="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 px-3 py-1.5 rounded text-xs font-bold hover:bg-neutral-800">저장 및 종료</button>  
             </div>  
   
             <!-- 탭 선택기 -->  
             <div class="flex border-b border-neutral-200">  
-                <button onclick="switchDataTab('MEMORIZE')" id="tab-btn-memorize" class="flex-1 py-2 text-xs font-bold text-center border-b-2 border-neutral-900 text-neutral-900">암기 카드</button>  
-                <button onclick="switchDataTab('SEQUENCE')" id="tab-btn-sequence" class="flex-1 py-2 text-xs font-bold text-center border-b-2 border-transparent text-neutral-400 hover:text-neutral-600">배열 카드</button>  
-                <button onclick="switchDataTab('CLASSIFY')" id="tab-btn-classify" class="flex-1 py-2 text-xs font-bold text-center border-b-2 border-transparent text-neutral-400 hover:text-neutral-600">분류 카드</button>  
+                <button onclick="switchDataTab('MEMORIZE')" id="tab-btn-memorize" class="flex-1 py-2 text-xs font-bold text-center border-b-2 border-neutral-900 text-inherit">암기 카드</button>  
+                <button onclick="switchDataTab('SEQUENCE')" id="tab-btn-sequence" class="flex-1 py-2 text-xs font-bold text-center border-b-2 border-transparent opacity-40 hover:opacity-75">배열 카드</button>  
+                <button onclick="switchDataTab('CLASSIFY')" id="tab-btn-classify" class="flex-1 py-2 text-xs font-bold text-center border-b-2 border-transparent opacity-40 hover:opacity-75">분류 카드</button>  
             </div>  
   
             <!-- 탭 1: 암기 카드 -->  
             <div id="data-tab-content-memorize" class="space-y-4">  
-                <div class="bg-neutral-50 p-3 rounded border border-neutral-200 space-y-3">  
-                    <span class="block text-xs font-bold text-neutral-700">새 암기 카드 추가</span>  
+                <div class="bg-neutral-500/5 p-3 rounded border border-neutral-200/40 space-y-3">  
+                    <span class="block text-xs font-bold">새 암기 카드 추가</span>  
                     <div class="grid grid-cols-2 gap-2">  
-                        <input type="text" id="add-mem-front" placeholder="앞면 (예: Apple)" class="border border-neutral-300 p-2 text-xs rounded focus:outline-none bg-white">  
-                        <input type="text" id="add-mem-back" placeholder="뒷면 (예: 사과)" class="border p-2 text-xs rounded bg-white focus:outline-none">  
+                        <input type="text" id="add-mem-front" placeholder="앞면 (예: Apple)" class="border border-neutral-300 p-2 text-xs rounded focus:outline-none bg-inherit text-inherit">  
+                        <input type="text" id="add-mem-back" placeholder="뒷면 (예: 사과)" class="border p-2 text-xs rounded bg-inherit text-inherit focus:outline-none">  
                     </div>  
-                    <button onclick="addMemorizeCardRow()" class="w-full bg-neutral-900 text-white py-1.5 rounded text-xs font-semibold">추가</button>  
+                    <button onclick="addMemorizeCardRow()" class="w-full bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 py-1.5 rounded text-xs font-semibold hover:opacity-90">추가</button>  
                 </div>  
                 <div id="data-list-memorize" class="space-y-1.5 max-h-60 overflow-y-auto"></div>  
             </div>  
   
             <!-- 탭 2: 배열 카드 -->  
             <div id="data-tab-content-sequence" class="hidden space-y-4">  
-                <div class="bg-neutral-50 p-3 rounded border border-neutral-200 space-y-3">  
-                    <span class="block text-xs font-bold text-neutral-700">새 배열 항목 추가 (입력 순서가 정답이 됩니다)</span>  
+                <div class="bg-neutral-500/5 p-3 rounded border border-neutral-200/40 space-y-3">  
+                    <span class="block text-xs font-bold">새 배열 항목 추가 (입력 순서가 정답이 됩니다)</span>  
                     <div class="space-y-2">  
-                        <input type="text" id="add-seq-text" placeholder="항목 명칭 (예: 1단계: 프로젝트 기획)" class="w-full border p-2 text-xs rounded bg-white focus:outline-none">  
-                        <input type="text" id="add-seq-desc" placeholder="항목의 뜻 또는 연계 상세 설명 (예: 요구사항 수집 및 예산 산정)" class="w-full border p-2 text-xs rounded bg-white focus:outline-none">  
+                        <input type="text" id="add-seq-text" placeholder="항목 명칭 (예: 1단계: 프로젝트 기획)" class="w-full border p-2 text-xs rounded bg-inherit text-inherit focus:outline-none">  
+                        <input type="text" id="add-seq-desc" placeholder="항목의 뜻 또는 연계 상세 설명 (예: 요구사항 수집 및 예산 산정)" class="w-full border p-2 text-xs rounded bg-inherit text-inherit focus:outline-none">  
                     </div>  
-                    <button onclick="addSequenceRow()" class="w-full bg-neutral-900 text-white py-1.5 rounded text-xs font-semibold">추가</button>  
+                    <button onclick="addSequenceRow()" class="w-full bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 py-1.5 rounded text-xs font-semibold hover:opacity-90">추가</button>  
                 </div>  
                 <div id="data-list-sequence" class="space-y-1.5 max-h-60 overflow-y-auto"></div>  
             </div>  
   
             <!-- 탭 3: 분류 카드 -->  
             <div id="data-tab-content-classify" class="hidden space-y-4">  
-                <div class="bg-neutral-50 p-3 rounded border border-neutral-200 space-y-3">  
-                    <span class="block text-xs font-bold text-neutral-700">새 분류 카드 추가</span>  
+                <div class="bg-neutral-500/5 p-3 rounded border border-neutral-200/40 space-y-3">  
+                    <span class="block text-xs font-bold">새 분류 카드 추가</span>  
                     <div class="space-y-2">  
                         <div class="grid grid-cols-2 gap-2">  
-                            <input type="text" id="add-cls-card" placeholder="카드명 (예: 고래)" class="border p-2 text-xs rounded bg-white focus:outline-none">  
-                            <input type="text" id="add-cls-group" placeholder="대분류명 (예: 동물)" class="border p-2 text-xs rounded bg-white focus:outline-none">  
+                            <input type="text" id="add-cls-card" placeholder="카드명 (예: 고래)" class="border p-2 text-xs rounded bg-inherit text-inherit focus:outline-none">  
+                            <input type="text" id="add-cls-group" placeholder="대분류명 (예: 동물)" class="border p-2 text-xs rounded bg-inherit text-inherit focus:outline-none">  
                         </div>  
-                        <input type="text" id="add-cls-desc" placeholder="뜻 / 상세 설명" class="w-full border p-2 text-xs rounded bg-white focus:outline-none">  
+                        <input type="text" id="add-cls-desc" placeholder="뜻 / 상세 설명" class="w-full border p-2 text-xs rounded bg-inherit text-inherit focus:outline-none">  
                     </div>  
-                    <button onclick="addClassifyRow()" class="w-full bg-neutral-900 text-white py-1.5 rounded text-xs font-semibold">추가</button>  
+                    <button onclick="addClassifyRow()" class="w-full bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 py-1.5 rounded text-xs font-semibold hover:opacity-90">추가</button>  
                 </div>  
                 <div id="data-list-classify" class="space-y-1.5 max-h-60 overflow-y-auto"></div>  
             </div>  
@@ -393,73 +470,120 @@
     </main>  
   
     <!-- 푸터 -->  
-    <footer class="border-t border-neutral-100 py-4 text-center text-[11px] text-neutral-400">  
+    <footer class="border-t border-neutral-200/40 py-4 text-center text-[11px] opacity-40">  
         메모RE © 2026. 암기 효율 극대화.  
     </footer>  
   
-    <!-- 모달들 -->  
+    <!-- [모달] 폴더 추가 -->  
     <div id="modal-folder-add" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">  
-        <div class="bg-white border border-neutral-900 w-full max-w-xs p-5 rounded-lg space-y-4">  
+        <div class="bg-white border border-neutral-900/40 w-full max-w-xs p-5 rounded-lg space-y-4 text-inherit">  
             <h3 class="text-sm font-bold">새 폴더 생성</h3>  
-            <input type="text" id="folder-name-input" placeholder="폴더 이름을 입력하세요" class="w-full border p-2 text-xs rounded focus:outline-none">  
+            <input type="text" id="folder-name-input" placeholder="폴더 이름을 입력하세요" class="w-full border p-2 text-xs rounded bg-inherit text-inherit focus:outline-none">  
             <div class="flex gap-2 justify-end">  
-                <button onclick="closeFolderAddModal()" class="border px-3 py-1.5 text-xs rounded">취소</button>  
-                <button onclick="createNewFolder()" class="bg-neutral-900 text-white px-4 py-1.5 text-xs rounded">생성</button>  
+                <button onclick="closeFolderAddModal()" class="border px-3 py-1.5 text-xs rounded bg-inherit">취소</button>  
+                <button onclick="createNewFolder()" class="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 px-4 py-1.5 text-xs rounded">생성</button>  
             </div>  
         </div>  
     </div>  
   
+    <!-- [모달] 묶음 추가 -->  
     <div id="modal-set-add" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">  
-        <div class="bg-white border border-neutral-900 w-full max-w-xs p-5 rounded-lg space-y-4">  
+        <div class="bg-white dark:bg-neutral-800 border border-neutral-900/40 w-full max-w-xs p-5 rounded-lg space-y-4 text-inherit">  
             <h3 class="text-sm font-bold">새 묶음 생성</h3>  
-            <input type="text" id="set-name-input" placeholder="묶음 이름을 입력하세요" class="w-full border p-2 text-xs rounded focus:outline-none">  
+            <input type="text" id="set-name-input" placeholder="묶음 이름을 입력하세요" class="w-full border p-2 text-xs rounded bg-inherit text-inherit focus:outline-none">  
             <div class="flex gap-2 justify-end">  
-                <button onclick="closeSetAddModal()" class="border px-3 py-1.5 text-xs rounded">취소</button>  
-                <button onclick="createNewSet()" class="bg-neutral-900 text-white px-4 py-1.5 text-xs rounded">생성</button>  
+                <button onclick="closeSetAddModal()" class="border px-3 py-1.5 text-xs rounded bg-inherit">취소</button>  
+                <button onclick="createNewSet()" class="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 px-4 py-1.5 text-xs rounded">생성</button>  
             </div>  
         </div>  
     </div>  
   
     <!-- 도움말 모달 -->  
     <div id="modal-help" class="hidden fixed inset-0 flex items-center justify-center p-4 z-[9999]" style="background-color: rgba(0,0,0,0.45);">  
-        <div class="bg-white border border-neutral-950 w-full max-w-sm p-6 rounded-lg space-y-4 text-xs text-neutral-600 shadow-2xl">  
-            <div class="flex justify-between items-center border-b pb-2">  
-                <h3 class="font-bold text-neutral-900">메 / 모 난이도 학습 안내</h3>  
-                <button onclick="toggleHelpModal()" class="text-neutral-400 hover:text-neutral-900 text-lg">×</button>  
+        <div class="bg-white dark:bg-neutral-800 border border-neutral-900/40 w-full max-w-sm p-6 rounded-lg space-y-4 text-xs text-inherit shadow-2xl">  
+            <div class="flex justify-between items-center border-b pb-2 border-neutral-200/40">  
+                <h3 class="font-bold">메 / 모 난이도 학습 안내</h3>  
+                <button onclick="toggleHelpModal()" class="opacity-40 hover:opacity-100 text-lg">×</button>  
             </div>  
             <div class="space-y-4 text-left leading-relaxed">  
                 <div class="space-y-1">  
-                    <span class="inline-block bg-neutral-950 text-white px-2 py-0.5 rounded font-bold text-[10px]">메 (ME) 방식</span>  
-                    <p class="font-medium text-neutral-900">정답을 머릿속으로 떠올려 스스로 평가하거나 물리 정렬하는 자가 진단형 학습</p>  
-                    <ul class="list-disc pl-4 space-y-1 text-neutral-500">  
+                    <span class="inline-block bg-neutral-950 text-white dark:bg-neutral-100 dark:text-neutral-900 px-2 py-0.5 rounded font-bold text-[10px]">메 (ME) 방식</span>  
+                    <p class="font-medium">정답을 머릿속으로 떠올려 스스로 평가하거나 물리 정렬하는 자가 진단형 학습</p>  
+                    <ul class="list-disc pl-4 space-y-1 opacity-60">  
                         <li><strong>암기</strong>: 앞면을 보고 답을 떠올린 후, 카드를 뒤집어 확인합니다.</li>  
                         <li><strong>배열</strong>: 항목 카드를 물리적으로 손으로 드래그하여 올바른 순서로 재배치합니다.</li>  
                         <li><strong>분류</strong>: 화면의 제시 카드가 하단 어떤 분류 그룹에 속하는지 선택지로 매칭합니다.</li>  
                     </ul>  
                 </div>  
                 <div class="space-y-1">  
-                    <span class="inline-block border border-neutral-950 px-2 py-0.5 rounded font-bold text-[10px] text-neutral-900">모 (MO) 방식</span>  
-                    <p class="font-medium text-neutral-900">답안과 세부 정의를 직접 작성하여 점검하는 완성형 검증 학습</p>  
-                    <ul class="list-disc pl-4 space-y-1 text-neutral-500">  
+                    <span class="inline-block border border-neutral-950 dark:border-neutral-100 px-2 py-0.5 rounded font-bold text-[10px]">모 (MO) 방식</span>  
+                    <p class="font-medium">답안과 세부 정의를 직접 작성하여 점검하는 완성형 검증 학습</p>  
+                    <ul class="list-disc pl-4 space-y-1 opacity-60">  
                         <li><strong>암기</strong>: 인풋 폼에 카드 뒷면의 정답을 완벽히 타이핑해야 정답 인정됩니다.</li>  
                         <li><strong>배열</strong>: 순서대로 항목을 드래그 배치한 후, 각 항목의 뜻과 상세 쓰임새까지 직접 서술해내야 인정됩니다.</li>  
                         <li><strong>분류</strong>: 카드 분류 매칭을 위해 카드를 터치하여 뒷면 힌트를 보며 매칭시킵니다.</li>  
                     </ul>  
                 </div>  
             </div>  
-            <button onclick="toggleHelpModal()" class="w-full bg-neutral-900 text-white py-2 rounded font-bold hover:bg-neutral-800">확인완료</button>  
+            <button onclick="toggleHelpModal()" class="w-full bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 py-2 rounded font-bold hover:opacity-90">확인완료</button>  
         </div>  
     </div>  
   
     <!-- 안전한 내부 삭제 전용 모달 -->  
     <div id="modal-delete-confirm" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">  
-        <div class="bg-white border border-neutral-900 w-full max-w-xs p-5 rounded-lg space-y-4 text-center">  
+        <div class="bg-white dark:bg-neutral-800 border border-neutral-900/40 w-full max-w-xs p-5 rounded-lg space-y-4 text-center text-inherit">  
             <h3 class="text-sm font-bold" id="delete-modal-title">정말 삭제하시겠습니까?</h3>  
-            <p class="text-xs text-neutral-400" id="delete-modal-desc">데이터가 즉시 파괴됩니다.</p>  
+            <p class="text-xs opacity-50" id="delete-modal-desc">데이터가 즉시 파괴됩니다.</p>  
             <div class="flex gap-2">  
-                <button onclick="closeDeleteConfirmModal()" class="flex-1 border py-2 text-xs rounded">취소</button>  
+                <button onclick="closeDeleteConfirmModal()" class="flex-1 border py-2 text-xs rounded bg-inherit">취소</button>  
                 <button onclick="executeConfirmedDeletion()" class="flex-1 bg-red-600 text-white py-2 text-xs rounded font-bold">삭제</button>  
             </div>  
+        </div>  
+    </div>  
+  
+    <!-- [모달] 테마 선택 창 -->  
+    <div id="modal-theme" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">  
+        <div class="bg-white dark:bg-neutral-800 border border-neutral-900/40 w-full max-w-xs p-5 rounded-lg space-y-4 text-inherit">  
+            <div class="flex justify-between items-center border-b pb-2 border-neutral-200/40">  
+                <h3 class="text-sm font-bold">테마 스타일 선택</h3>  
+                <button onclick="toggleThemeModal()" class="opacity-40 hover:opacity-100 text-lg">×</button>  
+            </div>  
+            <!-- 4가지 심플 테마 예시 선택지 -->  
+            <div class="space-y-2.5 max-h-80 overflow-y-auto pr-1">  
+                <!-- 화이트 테마 -->  
+                <button onclick="selectTheme('white')" class="w-full flex items-center gap-3 p-3 rounded-lg border border-neutral-200 hover:bg-neutral-100 text-neutral-900 bg-white transition-colors text-left">  
+                    <span class="w-6 h-6 rounded-full bg-white border border-neutral-400 shrink-0"></span>  
+                    <div class="flex-1">  
+                        <div class="text-xs font-bold">화이트 (White)</div>  
+                        <div class="text-[10px] opacity-60">기본적인 깨끗하고 깔끔한 클래식 스킨</div>  
+                    </div>  
+                </button>  
+                <!-- 다크 테마 -->  
+                <button onclick="selectTheme('dark')" class="w-full flex items-center gap-3 p-3 rounded-lg border border-neutral-700 hover:bg-neutral-900 text-neutral-200 bg-[#1a1a1a] transition-colors text-left">  
+                    <span class="w-6 h-6 rounded-full bg-[#1a1a1a] border border-neutral-600 shrink-0"></span>  
+                    <div class="flex-1">  
+                        <div class="text-xs font-bold">다크 (Dark)</div>  
+                        <div class="text-[10px] opacity-60">야간 학습에 적합한 편안하고 깊은 차콜 스킨</div>  
+                    </div>  
+                </button>  
+                <!-- 아이보리 테마 -->  
+                <button onclick="selectTheme('ivory')" class="w-full flex items-center gap-3 p-3 rounded-lg border border-neutral-300 hover:bg-[#eae6db] text-[#2b2927] bg-[#f7f4eb] transition-colors text-left">  
+                    <span class="w-6 h-6 rounded-full bg-[#f7f4eb] border border-neutral-400 shrink-0"></span>  
+                    <div class="flex-1">  
+                        <div class="text-xs font-bold">아이보리 (Ivory)</div>  
+                        <div class="text-[10px] opacity-60">눈의 피로를 최소화하는 따뜻한 빈티지 북 스킨</div>  
+                    </div>  
+                </button>  
+                <!-- 루리드래곤 테마 (로고를 ruri3.png 배경칩으로 바인딩) -->  
+                <button onclick="selectTheme('ruri')" class="w-full flex items-center gap-3 p-3 rounded-lg border border-[#a3c2ce] hover:bg-[#eae1d3] text-[#2b4c59] bg-[#f5efe6] transition-colors text-left">  
+                    <span class="w-6 h-6 rounded-full bg-cover bg-center shrink-0 border border-[#a3c2ce]" style="background-image: url('ruri/ruri3.png');"></span>  
+                    <div class="flex-1">  
+                        <div class="text-xs font-bold">루리드래곤 (Ruri)</div>  
+                        <div class="text-[10px] opacity-60">루리의 일상 무드를 닮은 청록베이지 만화 감성 스킨</div>  
+                    </div>  
+                </button>  
+            </div>  
+            <button onclick="toggleThemeModal()" class="w-full bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 py-2 rounded text-xs font-bold hover:opacity-90">닫기</button>  
         </div>  
     </div>  
   
@@ -512,6 +636,7 @@
         let pendingDeleteContext = null;   
   
         let editState = { mode: null, index: null };  
+        let currentTheme = "white"; // 기본 테마 상태  
   
         // 스와이프 제어 변수  
         let isMoving = false;  
@@ -522,6 +647,7 @@
   
         window.onload = function() {  
             loadAllData();  
+            initTheme(); // 테마 초기화 로드  
             renderHome();  
         };  
   
@@ -544,6 +670,66 @@
         function saveToLocalStorage() { if (appData) SafeStorage.setItem("memore_app_data_v7", JSON.stringify(appData)); }  
         function saveSessionsToLocalStorage() { SafeStorage.setItem("memore_sessions_v7", JSON.stringify(studySessions)); }  
   
+        // ==================== [T] 테마 시스템 엔지니어링 ====================  
+        function initTheme() {  
+            const savedTheme = SafeStorage.getItem("memore_theme");  
+            if (savedTheme) {  
+                currentTheme = savedTheme;  
+            }  
+            applyThemeClasses(currentTheme);  
+        }  
+  
+        function selectTheme(themeName) {  
+            currentTheme = themeName;  
+            SafeStorage.setItem("memore_theme", themeName);  
+            applyThemeClasses(themeName);  
+            toggleThemeModal();  
+            customAlert(`스킨이 '${themeName.toUpperCase()}' 테마로 변경되었습니다.`);  
+        }  
+  
+        function applyThemeClasses(theme) {  
+            const body = document.body;  
+            body.classList.remove("theme-white", "theme-dark", "theme-ivory", "theme-ruri");  
+            body.classList.add(`theme-${theme}`);  
+  
+            // 다크 테마 감지에 기반한 Tailwind 다크모드 상호작용 클래스 조율  
+            if (theme === "dark") {  
+                body.classList.add("dark");  
+            } else {  
+                body.classList.remove("dark");  
+            }  
+  
+            // 테마 설정 버튼 내부 칼라 도트 혹은 빨간 뿔 이미지 갱신  
+            const colorDot = document.getElementById("theme-btn-color");  
+            if (colorDot) {  
+                // 기본 속성 초기화  
+                colorDot.style.backgroundImage = "none";  
+                colorDot.className = "w-5 h-5 rounded-full border bg-cover bg-center transition-all";  
+                  
+                if (theme === "white") {  
+                    colorDot.className += " bg-white border-neutral-400";  
+                } else if (theme === "dark") {  
+                    colorDot.className += " bg-[#1a1a1a] border-neutral-600";  
+                } else if (theme === "ivory") {  
+                    colorDot.className += " bg-[#f7f4eb] border-neutral-400";  
+                } else if (theme === "ruri") {  
+                    colorDot.className += " border-[#a3c2ce]";  
+                    colorDot.style.backgroundImage = "url('ruri/ruri3.png')";  
+                }  
+            }  
+  
+            // 테마별 모드 단추 색상 업데이트  
+            updateDifficultyUI();  
+        }  
+  
+        function toggleThemeModal() {  
+            const modal = document.getElementById("modal-theme");  
+            if (modal) {  
+                modal.classList.toggle("hidden");  
+            }  
+        }  
+  
+        // ==================== 네비게이션 & 메인 렌더링 ====================  
         function changeView(viewId, pushToStack = true) {  
             const views = ["view-home", "view-folder-detail", "view-set-detail", "view-study-memorize", "view-study-sequence", "view-study-classify", "view-study-complete", "view-data-edit"];  
             views.forEach(v => document.getElementById(v)?.classList.add("hidden"));  
@@ -576,12 +762,12 @@
         function renderHome() {  
             const listEl = document.getElementById("folder-list"); if (!listEl) return; listEl.innerHTML = "";  
             if (!appData.folders || appData.folders.length === 0) {  
-                listEl.innerHTML = `<div class="text-center py-10 border border-dashed text-xs text-neutral-400">폴더가 비어있습니다.</div>`;  
+                listEl.innerHTML = `<div class="text-center py-10 border border-dashed border-neutral-400/40 text-xs opacity-50">폴더가 비어있습니다.</div>`;  
                 return;  
             }  
             appData.folders.forEach(f => {  
                 const div = document.createElement("div");  
-                div.className = "border border-neutral-900 p-4 rounded hover:bg-neutral-50 cursor-pointer flex justify-between items-center";  
+                div.className = "border border-neutral-900/40 p-4 rounded hover:bg-neutral-500/5 cursor-pointer flex justify-between items-center bg-white/5";  
                 div.onclick = () => { selectedFolderId = f.id; renderFolderDetail(f.id); changeView("view-folder-detail"); };  
                 div.innerHTML = `<div><span class="font-bold">${escapeHtml(f.name)}</span></div><span>→</span>`;  
                 listEl.appendChild(div);  
@@ -594,14 +780,14 @@
             document.getElementById("current-folder-title").innerText = folder.name;  
             const listEl = document.getElementById("set-list"); if (!listEl) return; listEl.innerHTML = "";  
             if (!folder.sets || folder.sets.length === 0) {  
-                listEl.innerHTML = `<div class="text-center py-10 border border-dashed text-xs text-neutral-400">묶음이 없습니다.</div>`;  
+                listEl.innerHTML = `<div class="text-center py-10 border border-dashed border-neutral-400/40 text-xs opacity-50">묶음이 없습니다.</div>`;  
                 return;  
             }  
             folder.sets.forEach(s => {  
                 const div = document.createElement("div");  
-                div.className = "border border-neutral-900 p-4 rounded hover:bg-neutral-50 cursor-pointer flex justify-between items-center";  
+                div.className = "border border-neutral-900/40 p-4 rounded hover:bg-neutral-500/5 cursor-pointer flex justify-between items-center bg-white/5";  
                 div.onclick = () => { selectedSetId = s.id; renderSetDetail(s.id); changeView("view-set-detail"); };  
-                div.innerHTML = `<div><span class="font-bold">${escapeHtml(s.name)}</span></div><span class="text-xs bg-neutral-100 px-2 py-0.5 rounded">${s.count || 0}</span>`;  
+                div.innerHTML = `<div><span class="font-bold">${escapeHtml(s.name)}</span></div><span class="text-xs bg-neutral-500/10 px-2 py-0.5 rounded">${s.count || 0}</span>`;  
                 listEl.appendChild(div);  
             });  
         }  
@@ -671,12 +857,30 @@
             const btnMe = document.getElementById("diff-me-btn");  
             const btnMo = document.getElementById("diff-mo-btn");  
             if (!btnMe || !btnMo) return;  
+  
+            // 다크/화이트/아이보리/루리에 알맞게 난이도 스위치 색상 테마 동적 지정  
             if (currentDifficulty === "ME") {  
-                btnMe.className = "px-4 py-1.5 text-xs font-bold bg-neutral-900 text-white transition-all";  
-                btnMo.className = "px-4 py-1.5 text-xs font-bold bg-white text-neutral-700 hover:bg-neutral-100 transition-all";  
+                if (currentTheme === "dark") {  
+                    btnMe.className = "px-4 py-1.5 text-xs font-bold bg-neutral-100 text-neutral-900 transition-all";  
+                    btnMo.className = "px-4 py-1.5 text-xs font-bold bg-neutral-800 text-neutral-400 hover:bg-neutral-700 transition-all";  
+                } else if (currentTheme === "ruri") {  
+                    btnMe.className = "px-4 py-1.5 text-xs font-bold bg-[#2b4c59] text-white transition-all";  
+                    btnMo.className = "px-4 py-1.5 text-xs font-bold bg-white/70 text-[#2b4c59] hover:bg-[#eae1d3] transition-all";  
+                } else {  
+                    btnMe.className = "px-4 py-1.5 text-xs font-bold bg-neutral-900 text-white transition-all";  
+                    btnMo.className = "px-4 py-1.5 text-xs font-bold bg-white text-neutral-700 hover:bg-neutral-100 transition-all";  
+                }  
             } else {  
-                btnMo.className = "px-4 py-1.5 text-xs font-bold bg-neutral-900 text-white transition-all";  
-                btnMe.className = "px-4 py-1.5 text-xs font-bold bg-white text-neutral-700 hover:bg-neutral-100 transition-all";  
+                if (currentTheme === "dark") {  
+                    btnMo.className = "px-4 py-1.5 text-xs font-bold bg-neutral-100 text-neutral-900 transition-all";  
+                    btnMe.className = "px-4 py-1.5 text-xs font-bold bg-neutral-800 text-neutral-400 hover:bg-neutral-700 transition-all";  
+                } else if (currentTheme === "ruri") {  
+                    btnMo.className = "px-4 py-1.5 text-xs font-bold bg-[#2b4c59] text-white transition-all";  
+                    btnMe.className = "px-4 py-1.5 text-xs font-bold bg-white/70 text-[#2b4c59] hover:bg-[#eae1d3] transition-all";  
+                } else {  
+                    btnMo.className = "px-4 py-1.5 text-xs font-bold bg-neutral-900 text-white transition-all";  
+                    btnMe.className = "px-4 py-1.5 text-xs font-bold bg-white text-neutral-700 hover:bg-neutral-100 transition-all";  
+                }  
             }  
         }  
   
@@ -851,7 +1055,6 @@
             setTimeout(() => handleMemorizeDecisionWithAnim(isCorrect), 1200);  
         }  
   
-        // [완벽 해결] p 변수 할당 구문 오류 원천 소멸 및 안정 튜닝  
         function initSwipeEvents() {  
             const wrapper = document.getElementById("memorize-card-wrapper");  
             const dragContainer = document.getElementById("memorize-drag-container");  
@@ -954,21 +1157,21 @@
             sequenceItems.forEach((item, idx) => {  
                 const div = document.createElement("div");  
                 div.setAttribute("data-index", idx);  
-                div.className = "drag-item border border-neutral-950 p-4 rounded bg-white flex flex-col gap-2 shadow-sm";  
+                div.className = "drag-item border border-neutral-950/40 p-4 rounded app-card-bg flex flex-col gap-2 shadow-sm text-inherit";  
                   
                 let innerHTML = `  
                     <div class="flex items-center justify-between pointer-events-none select-none">  
                         <div class="flex items-center gap-2">  
-                            <span class="font-mono text-xs text-neutral-400">#${idx+1}</span>  
-                            <span class="text-sm font-bold text-neutral-900">${escapeHtml(item.text)}</span>  
+                            <span class="font-mono text-xs opacity-40">#${idx+1}</span>  
+                            <span class="text-sm font-bold">${escapeHtml(item.text)}</span>  
                         </div>  
-                        <span class="text-neutral-400 text-xs">☰ 드래그</span>  
+                        <span class="opacity-40 text-xs">☰ 드래그</span>  
                     </div>  
                 `;  
                 if (currentDifficulty === "MO") {  
                     innerHTML += `  
                         <div class="mt-1">  
-                            <input type="text" placeholder="이 항목의 뜻/설명을 설명해 보세요" value="${escapeHtml(item.userDescInput || '')}" class="w-full border border-neutral-400 p-1.5 text-xs rounded focus:outline-none" onchange="updateSeqDesc(${idx}, this.value)">  
+                            <input type="text" placeholder="이 항목의 뜻/설명을 설명해 보세요" value="${escapeHtml(item.userDescInput || '')}" class="w-full border border-neutral-300 p-1.5 text-xs rounded bg-inherit text-inherit focus:outline-none" onchange="updateSeqDesc(${idx}, this.value)">  
                         </div>  
                     `;  
                 }  
@@ -1094,7 +1297,7 @@
             const btnContainer = document.getElementById("classify-category-buttons"); btnContainer.innerHTML = "";  
             categories.forEach(cat => {  
                 const btn = document.createElement("button");  
-                btn.className = "border border-neutral-900 py-3 text-xs font-bold hover:bg-neutral-50 rounded bg-white";  
+                btn.className = "border border-neutral-900/40 py-3 text-xs font-bold hover:bg-neutral-500/5 rounded bg-white/5 text-inherit";  
                 btn.innerText = cat; btn.onclick = (e) => { e.stopPropagation(); submitClassifySelection(cat); };  
                 btnContainer.appendChild(btn);  
             });  
@@ -1138,8 +1341,31 @@
             saveSessionsToLocalStorage();  
             document.getElementById("complete-count-before").innerText = set.count - 1;  
             document.getElementById("complete-count-after").innerText = set.count;  
+  
+            // [🎉 ruri.png 랜덤 선택 바인딩 및 표시 로직]  
+            const ruriImg = document.getElementById("complete-ruri-img");  
+            const ruriFallback = document.getElementById("complete-ruri-fallback");  
+            if (ruriImg && ruriFallback) {  
+                ruriImg.classList.remove("hidden");  
+                ruriFallback.classList.add("hidden");  
+                // ruri1.png, ruri2.png 중 하나를 랜덤으로 지정  
+                const randomNum = Math.floor(Math.random() * 2) + 1;  
+                ruriImg.src = `ruri/ruri${randomNum}.png`;  
+            }  
+  
             changeView("view-study-complete");  
         }  
+  
+        // ruri.png 이미지 로드 실패 시 원활한 플레이스홀더 제공용 에러 헨들러  
+        function handleRuriImgError() {  
+            const ruriImg = document.getElementById("complete-ruri-img");  
+            const ruriFallback = document.getElementById("complete-ruri-fallback");  
+            if (ruriImg && ruriFallback) {  
+                ruriImg.classList.add("hidden");  
+                ruriFallback.classList.remove("hidden");  
+            }  
+        }  
+  
         function goToCurrentSetDetail() { renderSetDetail(selectedSetId); changeView("view-set-detail"); }  
         function openSetDataEdit() { currentEditingTab = "MEMORIZE"; switchDataTab("MEMORIZE"); changeView("view-data-edit"); }  
         function saveAndExitDataEdit() { renderSetDetail(selectedSetId); changeView("view-set-detail"); }  
@@ -1150,7 +1376,7 @@
                 const btn = document.getElementById(`tab-btn-${t.toLowerCase()}`);  
                 const content = document.getElementById(`data-tab-content-${t.toLowerCase()}`);  
                 if (btn && content) {  
-                    btn.className = t === tab ? "flex-1 py-2 text-xs font-bold text-center border-b-2 border-neutral-900 text-neutral-900" : "flex-1 py-2 text-xs font-bold text-center border-b-2 border-transparent text-neutral-400";  
+                    btn.className = t === tab ? "flex-1 py-2 text-xs font-bold text-center border-b-2 border-neutral-900 text-inherit" : "flex-1 py-2 text-xs font-bold text-center border-b-2 border-transparent opacity-40";  
                     content.classList.toggle("hidden", t !== tab);  
                 }  
             });  
@@ -1197,32 +1423,32 @@
             if (currentEditingTab === "MEMORIZE") {  
                 const list = document.getElementById("data-list-memorize"); if (!list) return; list.innerHTML = "";  
                 const cardList = set.cards.MEMORIZE || [];  
-                if (cardList.length === 0) list.innerHTML = `<p class="text-[11px] text-neutral-400 text-center py-4">등록된 카드가 없습니다.</p>`;  
+                if (cardList.length === 0) list.innerHTML = `<p class="text-[11px] opacity-40 text-center py-4">등록된 카드가 없습니다.</p>`;  
                 else {  
                     cardList.forEach((card, idx) => {  
                         const row = document.createElement("div");  
                         if (editState.mode === 'MEMORIZE' && editState.index === idx) {  
-                            row.className = "border border-neutral-900 p-2.5 rounded bg-neutral-50 space-y-2";  
+                            row.className = "border border-neutral-900/40 p-2.5 rounded bg-neutral-500/5 space-y-2 text-inherit";  
                             row.innerHTML = `  
                                 <div class="grid grid-cols-2 gap-2">  
-                                    <input type="text" id="edit-mem-front-${idx}" value="${escapeHtml(card.front)}" class="w-full border border-neutral-300 p-1.5 text-xs rounded bg-white focus:outline-none">  
-                                    <input type="text" id="edit-mem-back-${idx}" value="${escapeHtml(card.back)}" class="w-full border border-neutral-300 p-1.5 text-xs rounded bg-white focus:outline-none">  
+                                    <input type="text" id="edit-mem-front-${idx}" value="${escapeHtml(card.front)}" class="w-full border border-neutral-300 p-1.5 text-xs rounded bg-inherit text-inherit focus:outline-none">  
+                                    <input type="text" id="edit-mem-back-${idx}" value="${escapeHtml(card.back)}" class="w-full border border-neutral-300 p-1.5 text-xs rounded bg-inherit text-inherit focus:outline-none">  
                                 </div>  
                                 <div class="flex gap-1 justify-end">  
-                                    <button onclick="saveEditCard('MEMORIZE', ${idx})" class="bg-neutral-900 text-white text-[11px] px-2.5 py-1 rounded">저장</button>  
-                                    <button onclick="cancelEditCard(); renderDataEditTab();" class="border text-[11px] px-2.5 py-1 rounded">취소</button>  
+                                    <button onclick="saveEditCard('MEMORIZE', ${idx})" class="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 text-[11px] px-2.5 py-1 rounded">저장</button>  
+                                    <button onclick="cancelEditCard(); renderDataEditTab();" class="border text-[11px] px-2.5 py-1 rounded bg-inherit">취소</button>  
                                 </div>  
                             `;  
                         } else {  
-                            row.className = "flex items-center justify-between border border-neutral-200 p-2.5 rounded text-xs bg-white hover:bg-neutral-50";  
+                            row.className = "flex items-center justify-between border border-neutral-200/40 p-2.5 rounded text-xs bg-white/5 hover:bg-neutral-500/5 text-inherit";  
                             row.innerHTML = `  
                                 <div class="grid grid-cols-2 gap-2 flex-grow mr-2">  
                                     <strong class="truncate">${escapeHtml(card.front)}</strong>  
-                                    <span class="truncate text-neutral-500">${escapeHtml(card.back)}</span>  
+                                    <span class="truncate opacity-60">${escapeHtml(card.back)}</span>  
                                 </div>  
                                 <div class="flex gap-1">  
-                                    <button onclick="startEditCard('MEMORIZE', ${idx})" class="text-neutral-700 border px-2 py-0.5 rounded text-[11px] hover:bg-white">수정</button>  
-                                    <button onclick="deleteRow('MEMORIZE', ${idx})" class="text-red-500 border border-red-200 px-2 py-0.5 rounded text-[11px] hover:bg-red-50">삭제</button>  
+                                    <button onclick="startEditCard('MEMORIZE', ${idx})" class="border px-2 py-0.5 rounded text-[11px] bg-inherit hover:opacity-80">수정</button>  
+                                    <button onclick="deleteRow('MEMORIZE', ${idx})" class="text-red-500 border border-red-200/40 px-2 py-0.5 rounded text-[11px] hover:bg-red-500/10">삭제</button>  
                                 </div>  
                             `;  
                         }  
@@ -1233,35 +1459,35 @@
             else if (currentEditingTab === "SEQUENCE") {  
                 const list = document.getElementById("data-list-sequence"); if (!list) return; list.innerHTML = "";  
                 const seqList = set.cards.SEQUENCE || [];  
-                if (seqList.length === 0) list.innerHTML = `<p class="text-[11px] text-neutral-400 text-center py-4">등록된 카드가 없습니다.</p>`;  
+                if (seqList.length === 0) list.innerHTML = `<p class="text-[11px] opacity-40 text-center py-4">등록된 카드가 없습니다.</p>`;  
                 else {  
                     seqList.forEach((c, idx) => {  
                         const row = document.createElement("div");  
                         if (editState.mode === 'SEQUENCE' && editState.index === idx) {  
-                            row.className = "border border-neutral-900 p-2.5 rounded bg-neutral-50 space-y-2";  
+                            row.className = "border border-neutral-900/40 p-2.5 rounded bg-neutral-500/5 space-y-2 text-inherit";  
                             row.innerHTML = `  
                                 <div class="space-y-1.5">  
-                                    <input type="text" id="edit-seq-text-${idx}" value="${escapeHtml(c.text)}" class="w-full border border-neutral-300 p-1.5 text-xs rounded bg-white focus:outline-none">  
-                                    <input type="text" id="edit-seq-desc-${idx}" value="${escapeHtml(c.desc || '')}" class="w-full border border-neutral-300 p-1.5 text-xs rounded bg-white focus:outline-none">  
+                                    <input type="text" id="edit-seq-text-${idx}" value="${escapeHtml(c.text)}" class="w-full border border-neutral-300 p-1.5 text-xs rounded bg-inherit text-inherit focus:outline-none">  
+                                    <input type="text" id="edit-seq-desc-${idx}" value="${escapeHtml(c.desc || '')}" class="w-full border border-neutral-300 p-1.5 text-xs rounded bg-inherit text-inherit focus:outline-none">  
                                 </div>  
                                 <div class="flex gap-1 justify-end">  
-                                    <button onclick="saveEditCard('SEQUENCE', ${idx})" class="bg-neutral-900 text-white text-[11px] px-2.5 py-1 rounded">저장</button>  
-                                    <button onclick="cancelEditCard(); renderDataEditTab();" class="border text-[11px] px-2.5 py-1 rounded">취소</button>  
+                                    <button onclick="saveEditCard('SEQUENCE', ${idx})" class="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 text-[11px] px-2.5 py-1 rounded">저장</button>  
+                                    <button onclick="cancelEditCard(); renderDataEditTab();" class="border text-[11px] px-2.5 py-1 rounded bg-inherit">취소</button>  
                                 </div>  
                             `;  
                         } else {  
-                            row.className = "border border-neutral-200 p-3 rounded text-xs bg-white hover:bg-neutral-50 space-y-1";  
+                            row.className = "border border-neutral-200/40 p-3 rounded text-xs bg-white/5 hover:bg-neutral-500/5 space-y-1 text-inherit";  
                             row.innerHTML = `  
                                 <div class="flex justify-between font-bold">  
                                     <span>#${idx+1} ${escapeHtml(c.text)}</span>  
                                     <div class="flex gap-1 shrink-0 font-normal">  
-                                        <button onclick="moveSequenceEditRank(${idx}, -1)" class="px-1.5 border hover:bg-neutral-100">▲</button>  
-                                        <button onclick="moveSequenceEditRank(${idx}, 1)" class="px-1.5 border hover:bg-neutral-100">▼</button>  
-                                        <button onclick="startEditCard('SEQUENCE', ${idx})" class="text-neutral-700 border px-2 py-0.5 rounded text-[11px] hover:bg-neutral-100 ml-1">수정</button>  
-                                        <button onclick="deleteRow('SEQUENCE', ${idx})" class="text-red-500 border border-red-200 px-2 py-0.5 rounded text-[11px] hover:bg-red-50">삭제</button>  
+                                        <button onclick="moveSequenceEditRank(${idx}, -1)" class="px-1.5 border border-neutral-300/40 hover:bg-neutral-500/5">▲</button>  
+                                        <button onclick="moveSequenceEditRank(${idx}, 1)" class="px-1.5 border border-neutral-300/40 hover:bg-neutral-500/5">▼</button>  
+                                        <button onclick="startEditCard('SEQUENCE', ${idx})" class="border px-2 py-0.5 rounded text-[11px] bg-inherit hover:opacity-80 ml-1">수정</button>  
+                                        <button onclick="deleteRow('SEQUENCE', ${idx})" class="text-red-500 border border-red-200/40 px-2 py-0.5 rounded text-[11px] hover:bg-red-500/10">삭제</button>  
                                     </div>  
                                 </div>  
-                                <div class="text-neutral-400 text-[11px] truncate">뜻/설명: ${escapeHtml(c.desc || '미입력')}</div>  
+                                <div class="opacity-50 text-[11px] truncate">뜻/설명: ${escapeHtml(c.desc || '미입력')}</div>  
                             `;  
                         }  
                         list.appendChild(row);  
@@ -1271,37 +1497,37 @@
             else if (currentEditingTab === "CLASSIFY") {  
                 const list = document.getElementById("data-list-classify"); if (!list) return; list.innerHTML = "";  
                 const clsList = set.cards.CLASSIFY || [];  
-                if (clsList.length === 0) list.innerHTML = `<p class="text-[11px] text-neutral-400 text-center py-4">등록된 카드가 없습니다.</p>`;  
+                if (clsList.length === 0) list.innerHTML = `<p class="text-[11px] opacity-40 text-center py-4">등록된 카드가 없습니다.</p>`;  
                 else {  
                     clsList.forEach((c, idx) => {  
                         const row = document.createElement("div");  
                         if (editState.mode === 'CLASSIFY' && editState.index === idx) {  
-                            row.className = "border border-neutral-200 p-2.5 rounded bg-neutral-50 space-y-2";  
+                            row.className = "border border-neutral-200/40 p-2.5 rounded bg-neutral-500/5 space-y-2 text-inherit";  
                             row.innerHTML = `  
                                 <div class="grid grid-cols-2 gap-2">  
-                                    <input type="text" id="edit-cls-card-${idx}" value="${escapeHtml(c.card)}" class="border border-neutral-300 p-1.5 text-xs rounded bg-white focus:outline-none">  
-                                    <input type="text" id="edit-cls-group-${idx}" value="${escapeHtml(c.group)}" class="border border-neutral-300 p-1.5 text-xs rounded bg-white focus:outline-none">  
+                                    <input type="text" id="edit-cls-card-${idx}" value="${escapeHtml(c.card)}" class="border border-neutral-300 p-1.5 text-xs rounded bg-inherit text-inherit focus:outline-none">  
+                                    <input type="text" id="edit-cls-group-${idx}" value="${escapeHtml(c.group)}" class="border border-neutral-300 p-1.5 text-xs rounded bg-inherit text-inherit focus:outline-none">  
                                 </div>  
-                                <input type="text" id="edit-cls-desc-${idx}" value="${escapeHtml(c.desc || '')}" class="w-full border border-neutral-300 p-1.5 text-xs rounded bg-white focus:outline-none">  
+                                <input type="text" id="edit-cls-desc-${idx}" value="${escapeHtml(c.desc || '')}" class="w-full border border-neutral-300 p-1.5 text-xs rounded bg-inherit text-inherit focus:outline-none">  
                                 <div class="flex gap-1 justify-end">  
-                                    <button onclick="saveEditCard('CLASSIFY', ${idx})" class="bg-neutral-900 text-white text-[11px] px-2.5 py-1 rounded">저장</button>  
-                                    <button onclick="cancelEditCard(); renderDataEditTab();" class="border text-[11px] px-2.5 py-1 rounded">취소</button>  
+                                    <button onclick="saveEditCard('CLASSIFY', ${idx})" class="bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 text-[11px] px-2.5 py-1 rounded">저장</button>  
+                                    <button onclick="cancelEditCard(); renderDataEditTab();" class="border text-[11px] px-2.5 py-1 rounded bg-inherit">취소</button>  
                                 </div>  
                             `;  
                         } else {  
-                            row.className = "border border-neutral-200 p-3 rounded text-xs bg-white hover:bg-neutral-50 space-y-1.5";  
+                            row.className = "border border-neutral-200/40 p-3 rounded text-xs bg-white/5 hover:bg-neutral-500/5 space-y-1.5 text-inherit";  
                             row.innerHTML = `  
                                 <div class="flex justify-between items-center">  
                                     <div>  
                                         <strong>${escapeHtml(c.card)}</strong>   
-                                        <span class="text-neutral-400 font-medium ml-1.5">[${escapeHtml(c.group)}]</span>  
+                                        <span class="opacity-50 font-medium ml-1.5">[${escapeHtml(c.group)}]</span>  
                                     </div>  
                                     <div class="flex gap-1">  
-                                        <button onclick="startEditCard('CLASSIFY', ${idx})" class="text-neutral-700 border px-2 py-0.5 rounded text-[11px] hover:bg-neutral-100">수정</button>  
-                                        <button onclick="deleteRow('CLASSIFY', ${idx})" class="text-red-500 border border-red-200 px-2 py-0.5 rounded text-[11px] hover:bg-red-50">삭제</button>  
+                                        <button onclick="startEditCard('CLASSIFY', ${idx})" class="border px-2 py-0.5 rounded text-[11px] bg-inherit hover:opacity-80">수정</button>  
+                                        <button onclick="deleteRow('CLASSIFY', ${idx})" class="text-red-500 border border-red-200/40 px-2 py-0.5 rounded text-[11px] hover:bg-red-500/10">삭제</button>  
                                     </div>  
                                 </div>  
-                                <div class="text-[11px] text-neutral-500 truncate">${escapeHtml(c.desc)}</div>  
+                                <div class="text-[11px] opacity-60 truncate">${escapeHtml(c.desc)}</div>  
                             `;  
                         }  
                         list.appendChild(row);  
@@ -1312,6 +1538,7 @@
   
         function deleteRow(mode, idx) { findSetById(selectedSetId).cards[mode].splice(idx, 1); saveToLocalStorage(); renderDataEditTab(); }  
   
+        // 카드 추가 및 갱신  
         function addMemorizeCardRow() {  
             const f = document.getElementById("add-mem-front"); const b = document.getElementById("add-mem-back");  
             if(!f.value.trim() || !b.value.trim()) return;  
@@ -1345,7 +1572,7 @@
         }  
         function customAlert(m) {  
             const toast = document.createElement("div");  
-            toast.className = "fixed bottom-5 left-1/2 -translate-x-1/2 bg-neutral-900 text-white text-xs px-5 py-2.5 rounded shadow-lg z-[9999] text-center w-80 pointer-events-none";  
+            toast.className = "fixed bottom-5 left-1/2 -translate-x-1/2 bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 text-xs px-5 py-2.5 rounded shadow-lg z-[9999] text-center w-80 pointer-events-none transition-all";  
             toast.innerText = m; document.body.appendChild(toast);  
             setTimeout(() => { toast.classList.add("opacity-0", "transition-opacity", "duration-500"); setTimeout(() => toast.remove(), 500); }, 2000);  
         }  
@@ -1358,5 +1585,6 @@
         }  
     </script>  
 </body>  
-</html>
+</html>  
 
+```
