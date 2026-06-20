@@ -272,7 +272,7 @@
         <!-- [4] 학습 화면 - 암기 모드 (MEMORIZE) -->            
         <section id="view-study-memorize" class="hidden space-y-6">            
             <div class="flex justify-between items-center text-xs opacity-60 border-b border-neutral-200/40 pb-2">            
-                <div>暗기 모드 (<span id="memorize-diff-label">메</span>)</div>            
+                <div>암기 모드 (<span id="memorize-diff-label">메</span>)</div>            
                 <div>남은 카드: <span id="memorize-left-count" class="font-bold text-inherit">0</span>장</div>            
             </div>            
             
@@ -595,9 +595,7 @@
                 <h3 class="text-sm font-bold">데이터 백업 / 복원</h3>            
                 <button onclick="toggleSyncModal()" class="opacity-40 hover:opacity-100 text-lg">×</button>            
             </div>            
-            <p class="text-[11px] opacity-60 leading-relaxed">            
-                공공 네트워크 문제나 브라우저 차단 환경에서도 완벽히 데이터를 유지할 수 있는 무설정 텍스트 연동 방식입니다. <br>            
-                카카오톡, 이메일, 메모장 등을 활용해 아래의 코드를 전달하여 다른 스마트폰이나 PC로 쉽게 데이터를 복제해 보세요.            
+            <p class="text-[11px] opacity-60 leading-relaxed">                     
             </p>            
   
             <!-- 완전한 수동 원클릭 텍스트 전송 도구 -->            
@@ -1679,7 +1677,7 @@
               
             // 브라우저 iFrame 제한을 피하기 위해 최적화된 document.execCommand('copy') 호출  
             document.execCommand('copy');  
-            customAlert("📋 데이터 텍스트가 클립보드에 복사되었습니다! 카톡이나 이메일 등에 붙여넣어 보관하거나 다른 기기로 전달하세요.");  
+            customAlert(" 텍스트가 클립보드에 복사되었습니다 ");  
             
             // 복사 이벤트 피드백으로 LED 상태등 애니메이션 주기
             const indicator = document.getElementById("sync-status-indicator");
@@ -1693,7 +1691,7 @@
             if (!textarea) return;  
             const rawVal = textarea.value.trim();  
             if (!rawVal) {  
-                customAlert("가져올 데이터 텍스트가 입력되지 않았습니다.");  
+                customAlert("가져올 텍스트가 입력되지 않았습니다.");  
                 return;  
             }  
   
@@ -1706,7 +1704,7 @@
                     saveToLocalStorage();  
                     saveSessionsToLocalStorage();  
                       
-                    customAlert("🎉 데이터 복원 완료! 이전 기기 또는 백업본의 전체 공부 데이터가 성공적으로 이 기기에 적용되었습니다.");  
+                    customAlert("이전 기기 또는 백업본의 전체 공부 데이터가 성공적으로 이 기기에 적용되었습니다.");  
                     renderHome();  
                     toggleSyncModal();  
                     goHome();  
@@ -1720,7 +1718,7 @@
                         }, 5000);
                     }
                 } else {  
-                    customAlert("⚠️ 올바른 memoRE 백업 텍스트 데이터 형식이 아닙니다.");  
+                    customAlert("⚠️ 올바른 백업 텍스트 데이터 형식이 아닙니다.");  
                 }  
             } catch(e) {  
                 customAlert("⚠️ 데이터 분석에 실패했습니다. 복사한 긴 텍스트를 누락 없이 정확하게 붙여넣었는지 다시 확인하세요.");  
