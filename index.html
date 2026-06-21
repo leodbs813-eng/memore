@@ -1851,6 +1851,11 @@
                 customAlert("⚠️ 데이터 분석에 실패했습니다. 복사한 긴 텍스트를 누락 없이 정확하게 붙여넣었는지 다시 확인하세요.");    
             }    
         }    
-    </script>              
+    </script>      
+    <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js');
+}
+</script>
 </body>              
 </html>              
