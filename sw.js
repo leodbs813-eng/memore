@@ -1,4 +1,4 @@
-const CACHE_NAME = "memore-v1";
+const CACHE_NAME = "memore-v2";
 
 const urlsToCache = [
   "./",
