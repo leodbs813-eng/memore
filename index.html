@@ -2423,5 +2423,10 @@
             setTimeout(() => { toast.classList.add("opacity-0", "transition-opacity", "duration-500"); setTimeout(() => toast.remove(), 500); }, 2000);                
         }
     </script>
+    <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+</script>
 </body>
 </html>
