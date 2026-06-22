@@ -1,6 +1,8 @@
 const CACHE_NAME = "memore-v6";
 
 const urlsToCache = [
+  "./",
+  "./index.html",
   "./IMG_6116.PNG",
   "./ruri/ruri1.JPG",
   "./ruri/ruri2.WEBP",
