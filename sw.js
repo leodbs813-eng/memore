@@ -1,4 +1,4 @@
-const CACHE_NAME = "memore-v5";
+const CACHE_NAME = "memore-v6";
 
 const urlsToCache = [
   "./IMG_6116.PNG",
