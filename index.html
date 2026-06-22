@@ -2425,8 +2425,13 @@
     </script>
     <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js');
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(() => console.log('Service Worker 등록 완료'))
+      .catch(err => console.log('등록 실패:', err));
+  });
 }
+</script>
 </script>
 </body>
 </html>
