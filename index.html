@@ -2367,7 +2367,7 @@
                 appData: appData,
                 studySessions: studySessions
             };
-            textarea.value = btoa(encodeURIComponent(JSON.stringify(backupPackage)));
+            textarea.value = LZString.compressToBase64(JSON.stringify(backupPackage));
         }
 
         function copyRawTextSyncData() {
@@ -2391,7 +2391,7 @@
             }
 
             try {
-                const decoded = JSON.parse(decodeURIComponent(atob(rawVal)));
+                const decoded = JSON.parse(LZString.decompressFromBase64(rawVal));
                 if (decoded && decoded.appData) {
                     appData = decoded.appData;
                     studySessions = decoded.studySessions || {};
@@ -2428,5 +2428,6 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
 }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
 </body>
 </html>
