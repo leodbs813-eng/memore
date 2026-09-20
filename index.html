@@ -124,7 +124,7 @@
 
     <!-- 헤더 -->  
     <header class="border-b border-slate-200/60 dark:border-slate-800 py-3 px-5 sticky top-0 bg-inherit z-40">  
-        <div class="max-w-md mx-auto flex items-center justify-between">  
+        <div class="max-w-md md:max-w-2xl lg:max-w-4xl mx-auto flex items-center justify-between">  
             <button onclick="goHome()" class="flex items-center gap-2 hover:opacity-80 transition-opacity">  
                 <span class="text-base font-bold tracking-tight">메모RE</span>  
             </button>  
@@ -154,7 +154,7 @@
     </header>  
 
     <!-- 메인 컨텐츠 영역 -->  
-    <main class="flex-grow w-full max-w-md mx-auto px-4 py-5">  
+    <main class="flex-grow w-full max-w-md md:max-w-2xl lg:max-w-4xl mx-auto px-4 md:px-6 py-5">  
   
         <!-- [1] 홈 화면: 폴더 목록 -->  
         <section id="view-home" class="space-y-4">  
@@ -165,7 +165,7 @@
                 </button>  
             </div>  
               
-            <div id="folder-list" class="space-y-2.5">  
+            <div id="folder-list" class="grid grid-cols-1 md:grid-cols-2 gap-2.5">  
                 <!-- 폴더 목록 동적 삽입 -->  
             </div>  
         </section>  
@@ -197,7 +197,7 @@
                 </button>  
             </div>  
   
-            <div id="set-list" class="space-y-2.5">  
+            <div id="set-list" class="grid grid-cols-1 md:grid-cols-2 gap-2.5">  
                 <!-- 묶음 목록 동적 삽입 -->  
             </div>  
         </section>  
@@ -236,7 +236,7 @@
             </div>  
   
             <!-- 난이도 선택 버튼 그룹 -->  
-            <div class="bg-slate-500/5 p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800 flex items-center justify-between gap-2">  
+            <div class="bg-slate-500/5 p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800 flex items-center justify-between gap-2 max-w-md">  
                 <span class="text-xs font-semibold opacity-80 shrink-0">난이도</span>  
                 <div class="flex border border-slate-300 dark:border-slate-700 rounded-lg overflow-hidden text-xs">  
                     <button id="diff-me-btn" onclick="setDifficulty('ME')" class="px-3.5 py-1 font-bold transition-all">메</button>  
@@ -246,7 +246,7 @@
             </div>  
   
             <!-- 3가지 학습 모드 버튼 -->  
-            <div class="space-y-2">  
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5">  
                 <button onclick="startStudy('MEMORIZE')" class="w-full border border-slate-200 dark:border-slate-800 p-3.5 text-left rounded-xl hover:bg-slate-500/5 transition-all flex justify-between items-center group app-card-bg">  
                     <div class="text-sm font-bold">1. 암기 모드</div>  
                     <span class="opacity-40 group-hover:opacity-100 transition-opacity">→</span>  
@@ -265,7 +265,7 @@
         </section>  
   
         <!-- [4] 암기 모드 (MEMORIZE) -->  
-        <section id="view-study-memorize" class="hidden space-y-4">  
+        <section id="view-study-memorize" class="hidden space-y-4 max-w-lg mx-auto">  
             <div class="flex justify-between items-center text-xs opacity-70 border-b border-slate-200 dark:border-slate-800 pb-2">  
                 <div>암기 모드 (<span id="memorize-diff-label" class="font-bold">ME</span>)</div>  
                 <div>남은 카드: <span id="memorize-left-count" class="font-bold">0</span></div>  
@@ -308,7 +308,7 @@
         </section>  
   
         <!-- [5] 배열 모드 (SEQUENCE) -->  
-        <section id="view-study-sequence" class="hidden space-y-4">  
+        <section id="view-study-sequence" class="hidden space-y-4 max-w-lg mx-auto">  
             <div class="flex justify-between items-center text-xs opacity-70 border-b border-slate-200 dark:border-slate-800 pb-2">  
                 <div>배열 모드 (<span id="sequence-diff-label" class="font-bold">메</span>) <span id="sequence-stage-indicator" class="ml-2 font-semibold"></span></div>  
             </div>  
@@ -324,7 +324,7 @@
         </section>  
   
         <!-- [6] 분류 모드 (CLASSIFY) -->  
-        <section id="view-study-classify" class="hidden space-y-4">  
+        <section id="view-study-classify" class="hidden space-y-4 max-w-lg mx-auto">  
             <div class="flex justify-between items-center text-xs opacity-70 border-b border-slate-200 dark:border-slate-800 pb-2">  
                 <div>분류 모드 (<span id="classify-diff-label" class="font-bold">메</span>) <span id="classify-stage-indicator" class="ml-2 font-semibold"></span></div>  
                 <div>남은 카드: <span id="classify-left-count" class="font-bold">0</span></div>  
@@ -361,7 +361,7 @@
         </section>  
 
         <!-- [7] 학습 완료 화면 -->  
-        <section id="view-study-complete" class="hidden text-center py-12 space-y-6">  
+        <section id="view-study-complete" class="hidden text-center py-12 space-y-6 max-w-sm mx-auto">  
             <div class="w-16 h-16 mx-auto bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 rounded-full flex items-center justify-center">  
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">  
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>  
@@ -382,7 +382,7 @@
         </section>  
   
         <!-- [8] 데이터 카드 편집 관리 화면 -->  
-        <section id="view-data-edit" class="hidden space-y-5">  
+        <section id="view-data-edit" class="hidden space-y-5 max-w-xl mx-auto">  
             <div class="border-b border-slate-200 dark:border-slate-800 pb-3 flex justify-between items-center">  
                 <h2 class="text-base font-bold">카드 관리</h2>  
                 <button onclick="saveAndExitDataEdit()" class="bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 px-3 py-1.5 rounded-md text-xs font-bold hover:opacity-90">  
@@ -724,7 +724,7 @@
             listEl.innerHTML = "";  
   
             if (!appData.folders || appData.folders.length === 0) {  
-                listEl.innerHTML = `<p class="text-xs opacity-50 py-8 text-center border border-dashed border-slate-300 dark:border-slate-800 rounded-xl">폴더가 없습니다.</p>`;  
+                listEl.innerHTML = `<p class="text-xs opacity-50 py-8 text-center border border-dashed border-slate-300 dark:border-slate-800 rounded-xl col-span-full">폴더가 없습니다.</p>`;  
                 return;  
             }  
   
@@ -760,7 +760,7 @@
             setList.innerHTML = "";  
   
             if (!folder.sets || folder.sets.length === 0) {  
-                setList.innerHTML = `<p class="text-xs opacity-50 py-8 text-center border border-dashed border-slate-300 dark:border-slate-800 rounded-xl">암기 묶음이 없습니다.</p>`;  
+                setList.innerHTML = `<p class="text-xs opacity-50 py-8 text-center border border-dashed border-slate-300 dark:border-slate-800 rounded-xl col-span-full">암기 묶음이 없습니다.</p>`;  
                 return;  
             }  
   
@@ -1871,16 +1871,13 @@
                 setTimeout(() => {  
                     currentClassifyIndex++;  
                     renderClassifyCard();  
-                }, 700);  
+                }, 800);  
             } else {  
                 fb.className = "p-3 border border-red-300 bg-red-500/10 text-red-600 dark:text-red-400 rounded-lg text-xs font-bold text-center";  
-                fb.innerText = `오답 (정답: ${item.group})`;  
-                
-                // 오답 목록에 추가 (중복 방지)
-                if (!classifyUnlearnedList.some(u => u.card === item.card)) {
+                fb.innerText = `오답입니다 (정답 그룹: ${item.group})`;  
+                if (!classifyUnlearnedList.some(u => u.card === item.card && u.group === item.group)) {
                     classifyUnlearnedList.push(item);
                 }
-
                 setTimeout(() => {  
                     currentClassifyIndex++;  
                     renderClassifyCard();  
@@ -1890,77 +1887,124 @@
 
         function completeStudy() {  
             const set = findSetById(selectedSetId);  
-            const before = set.count || 0;  
-            set.count = before + 1;  
-            saveToLocalStorage();  
-  
-            const sessionKey = `${selectedSetId}_MEMORIZE_${currentDifficulty}`;  
-            delete studySessions[sessionKey];  
+            if (set) {  
+                set.count = (set.count || 0) + 1;  
+                saveToLocalStorage();  
+                document.getElementById("complete-count-before").innerText = set.count - 1;  
+                document.getElementById("complete-count-after").innerText = set.count;  
+            }  
+            const modes = ["MEMORIZE", "SEQUENCE", "CLASSIFY"];  
+            modes.forEach(m => {  
+                delete studySessions[`${selectedSetId}_${m}_${currentDifficulty}`];  
+            });  
             saveSessionsToLocalStorage();  
-  
-            document.getElementById("complete-count-before").innerText = before;  
-            document.getElementById("complete-count-after").innerText = set.count;  
             changeView("view-study-complete");  
         }  
   
         function goToCurrentSetDetail() {  
-            renderSetDetail(selectedSetId);  
-            changeView("view-set-detail", false);  
+            if (selectedSetId) {  
+                renderSetDetail(selectedSetId);  
+                changeView("view-set-detail");  
+            } else {  
+                goHome();  
+            }  
         }  
-  
-        let activeDataTab = "MEMORIZE";  
+
+        // ==========================================  
+        // 4. 데이터 카드 편집 관리 기능  
+        // ==========================================  
+        let editingDataTab = "MEMORIZE";  
+        let editingSetBackup = null;  
   
         function openSetDataEdit() {  
+            const set = findSetById(selectedSetId);  
+            if (!set) return;  
+            editingSetBackup = JSON.parse(JSON.stringify(set));  
             switchDataTab("MEMORIZE");  
+            renderDataEditLists();  
             changeView("view-data-edit");  
         }  
   
         function switchDataTab(tab) {  
-            activeDataTab = tab;  
+            editingDataTab = tab;  
             ["MEMORIZE", "SEQUENCE", "CLASSIFY"].forEach(t => {  
-                document.getElementById(`data-tab-content-${t.toLowerCase()}`)?.classList.toggle("hidden", t !== tab);  
-                const btn = document.getElementById(`tab-btn-${t.toLowerCase()}`);  
-                if (btn) {  
+                const contentEl = document.getElementById(`data-tab-content-${t.toLowerCase()}`);  
+                const btnEl = document.getElementById(`tab-btn-${t.toLowerCase()}`);  
+                if (contentEl) contentEl.classList.toggle("hidden", t !== tab);  
+                if (btnEl) {  
                     if (t === tab) {  
-                        btn.className = "flex-1 py-2 font-bold text-center border-b-2 border-slate-900 dark:border-slate-100";  
+                        btnEl.className = "flex-1 py-2 font-bold text-center border-b-2 border-slate-900 dark:border-slate-100";  
                     } else {  
-                        btn.className = "flex-1 py-2 font-bold text-center border-b-2 border-transparent opacity-50";  
+                        btnEl.className = "flex-1 py-2 font-bold text-center border-b-2 border-transparent opacity-50";  
                     }  
                 }  
             });  
-            renderDataEditList();  
         }  
   
-        function renderDataEditList() {  
+        function renderDataEditLists() {  
             const set = findSetById(selectedSetId);  
             if (!set) return;  
   
-            if (activeDataTab === "MEMORIZE") {  
-                const list = document.getElementById("data-list-memorize");  
-                list.innerHTML = "";  
-                set.cards.MEMORIZE.forEach((c, idx) => {  
+            // 1. 암기 목록 렌더링  
+            const memListEl = document.getElementById("data-list-memorize");  
+            memListEl.innerHTML = "";  
+            if (set.cards.MEMORIZE.length === 0) {  
+                memListEl.innerHTML = `<p class="text-[11px] opacity-40 text-center py-4">카드가 없습니다.</p>`;  
+            } else {  
+                set.cards.MEMORIZE.forEach((card, idx) => {  
                     const div = document.createElement("div");  
-                    div.className = "p-2 border border-slate-200 dark:border-slate-800 rounded-md text-xs flex justify-between items-center";  
-                    div.innerHTML = `<div><strong>${escapeHtml(c.front)}</strong> : ${escapeHtml(c.back)}</div><button onclick="deleteCardRow('MEMORIZE', ${idx})" class="text-red-500 font-bold px-1.5">✕</button>`;  
-                    list.appendChild(div);  
+                    div.className = "flex items-center justify-between border border-slate-200 dark:border-slate-800 p-2 rounded-lg text-xs app-card-bg";  
+                    div.innerHTML = `  
+                        <div class="flex-grow grid grid-cols-2 gap-2 mr-2">  
+                            <span class="font-bold truncate">${escapeHtml(card.front)}</span>  
+                            <span class="opacity-70 truncate">${escapeHtml(card.back)}</span>  
+                        </div>  
+                        <button onclick="deleteMemorizeCardRow(${idx})" class="text-red-500 hover:opacity-75 px-2 text-xs font-bold">✕</button>  
+                    `;  
+                    memListEl.appendChild(div);  
                 });  
-            } else if (activeDataTab === "SEQUENCE") {  
-                const list = document.getElementById("data-list-sequence");  
-                list.innerHTML = "";  
-                set.cards.SEQUENCE.forEach((c, idx) => {  
+            }  
+  
+            // 2. 배열 목록 렌더링  
+            const seqListEl = document.getElementById("data-list-sequence");  
+            seqListEl.innerHTML = "";  
+            if (set.cards.SEQUENCE.length === 0) {  
+                seqListEl.innerHTML = `<p class="text-[11px] opacity-40 text-center py-4">카드가 없습니다.</p>`;  
+            } else {  
+                set.cards.SEQUENCE.forEach((item, idx) => {  
                     const div = document.createElement("div");  
-                    div.className, "p-2 border border-slate-200 dark:border-slate-800 rounded-md text-xs flex justify-between items-center";  
-                    div.innerHTML = `<div><strong>${idx + 1}. ${escapeHtml(c.text)}</strong> (${escapeHtml(c.desc)})</div><button onclick="deleteCardRow('SEQUENCE', ${idx})" class="text-red-500 font-bold px-1.5">✕</button>`;  
-                    list.appendChild(div);  
+                    div.className = "flex items-center justify-between border border-slate-200 dark:border-slate-800 p-2 rounded-lg text-xs app-card-bg";  
+                    div.innerHTML = `  
+                        <div class="flex-grow mr-2 overflow-hidden">  
+                            <span class="font-bold block truncate">${escapeHtml(item.text)}</span>  
+                            <span class="opacity-60 block text-[10px] truncate">${escapeHtml(item.desc)}</span>  
+                        </div>  
+                        <button onclick="deleteSequenceRow(${idx})" class="text-red-500 hover:opacity-75 px-2 text-xs font-bold">✕</button>  
+                    `;  
+                    seqListEl.appendChild(div);  
                 });  
-            } else if (activeDataTab === "CLASSIFY") {  
-                const list = document.getElementById("data-list-classify");  
-                list.innerHTML = "";  
-                set.cards.CLASSIFY.forEach((c, idx) => {  
+            }  
+  
+            // 3. 분류 목록 렌더링  
+            const clsListEl = document.getElementById("data-list-classify");  
+            clsListEl.innerHTML = "";  
+            if (set.cards.CLASSIFY.length === 0) {  
+                clsListEl.innerHTML = `<p class="text-[11px] opacity-40 text-center py-4">카드가 없습니다.</p>`;  
+            } else {  
+                set.cards.CLASSIFY.forEach((item, idx) => {  
                     const div = document.createElement("div");  
-                    div.className = "p-2 border border-slate-200 dark:border-slate-800 rounded-md text-xs flex justify-between items-center";  
-                    div.innerHTML = `<div><strong>${escapeHtml(c.card)}</strong> [${escapeHtml(c.group)}]</div><button onclick="deleteCardRow('CLASSIFY', ${idx})" class="text-red-500 font-bold px-1.5">✕</button>`;  
-                    list.appendChild(div);  
+                    div.className = "flex items-center justify-between border border-slate-200 dark:border-slate-800 p-2 rounded-lg text-xs app-card-bg";  
+                    div.innerHTML = `  
+                        <div class="flex-grow mr-2 overflow-hidden">  
+                            <div class="flex items-center gap-1.5">  
+                                <span class="font-bold truncate">${escapeHtml(item.card)}</span>  
+                                <span class="text-[10px] bg-slate-500/10 px-1.5 py-0.5 rounded font-mono">${escapeHtml(item.group)}</span>  
+                            </div>  
+                            <span class="opacity-60 block text-[10px] truncate">${escapeHtml(item.desc)}</span>  
+                        </div>  
+                        <button onclick="addClassifyRowDelete(${idx})" class="text-red-500 hover:opacity-75 px-2 text-xs font-bold">✕</button>  
+                    `;  
+                    clsListEl.appendChild(div);  
                 });  
             }  
         }  
@@ -1968,52 +2012,74 @@
         function addMemorizeCardRow() {  
             const front = document.getElementById("add-mem-front").value.trim();  
             const back = document.getElementById("add-mem-back").value.trim();  
-            if (!front || !back) return;  
+            if (!front || !back) { showToast("앞면과 뒷면을 모두 입력하세요."); return; }  
+  
             const set = findSetById(selectedSetId);  
+            if (!set) return;  
             set.cards.MEMORIZE.push({ front, back });  
-            saveToLocalStorage();  
             document.getElementById("add-mem-front").value = "";  
             document.getElementById("add-mem-back").value = "";  
-            renderDataEditList();  
+            renderDataEditLists();  
+            showToast("추가되었습니다.");  
+        }  
+  
+        function deleteMemorizeCardRow(idx) {  
+            const set = findSetById(selectedSetId);  
+            if (!set) return;  
+            set.cards.MEMORIZE.splice(idx, 1);  
+            renderDataEditLists();  
         }  
   
         function addSequenceRow() {  
             const text = document.getElementById("add-seq-text").value.trim();  
             const desc = document.getElementById("add-seq-desc").value.trim();  
-            if (!text) return;  
+            if (!text) { showToast("항목 명칭을 입력하세요."); return; }  
+  
             const set = findSetById(selectedSetId);  
-            set.cards.SEQUENCE.push({ text, desc: desc || text });  
-            saveToLocalStorage();  
+            if (!set) return;  
+            set.cards.SEQUENCE.push({ text, desc: desc || "" });  
             document.getElementById("add-seq-text").value = "";  
             document.getElementById("add-seq-desc").value = "";  
-            renderDataEditList();  
+            renderDataEditLists();  
+            showToast("추가되었습니다.");  
+        }  
+  
+        function deleteSequenceRow(idx) {  
+            const set = findSetById(selectedSetId);  
+            if (!set) return;  
+            set.cards.SEQUENCE.splice(idx, 1);  
+            renderDataEditLists();  
         }  
   
         function addClassifyRow() {  
             const card = document.getElementById("add-cls-card").value.trim();  
             const group = document.getElementById("add-cls-group").value.trim();  
             const desc = document.getElementById("add-cls-desc").value.trim();  
-            if (!card || !group) return;  
+            if (!card || !group) { showToast("카드명과 그룹명을 입력하세요."); return; }  
+  
             const set = findSetById(selectedSetId);  
-            set.cards.CLASSIFY.push({ card, group, desc: desc || card });  
-            saveToLocalStorage();  
+            if (!set) return;  
+            set.cards.CLASSIFY.push({ card, group, desc: desc || "" });  
             document.getElementById("add-cls-card").value = "";  
             document.getElementById("add-cls-group").value = "";  
             document.getElementById("add-cls-desc").value = "";  
-            renderDataEditList();  
+            renderDataEditLists();  
+            showToast("추가되었습니다.");  
         }  
   
-        function deleteCardRow(mode, idx) {  
+        function addClassifyRowDelete(idx) {  
             const set = findSetById(selectedSetId);  
-            set.cards[mode].splice(idx, 1);  
-            saveToLocalStorage();  
-            renderDataEditList();  
+            if (!set) return;  
+            set.cards.CLASSIFY.splice(idx, 1);  
+            renderDataEditLists();  
         }  
   
         function saveAndExitDataEdit() {  
+            saveToLocalStorage();  
             showToast("저장되었습니다.");  
-            goToCurrentSetDetail();  
+            renderSetDetail(selectedSetId);  
+            changeView("view-set-detail");  
         }  
     </script>  
 </body>  
-</html>  
+</html>
