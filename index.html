@@ -72,13 +72,18 @@
             transition: transform 0.3s ease, opacity 0.3s ease;  
         }  
   
-        /* 테마별 스타일 정의 */  
+        /* 테마별 스타일 정의 및 모달 배경 매칭 */  
         body.theme-white {  
             background-color: #fcfcfc;  
             color: #0f172a;  
         }  
         body.theme-white .app-card-bg {  
             background-color: #ffffff;  
+            border-color: #e2e8f0;  
+        }  
+        body.theme-white .app-modal-bg {  
+            background-color: #ffffff;  
+            color: #0f172a;  
             border-color: #e2e8f0;  
         }  
   
@@ -90,6 +95,11 @@
             background-color: #1e1e1e;  
             border-color: #334155;  
         }  
+        body.theme-dark .app-modal-bg {  
+            background-color: #1e1e1e;  
+            color: #f1f5f9;  
+            border-color: #334155;  
+        }  
   
         body.theme-ivory {  
             background-color: #f7f4eb;  
@@ -97,6 +107,11 @@
         }  
         body.theme-ivory .app-card-bg {  
             background-color: #fcfbfa;  
+            border-color: #e2dcce;  
+        }  
+        body.theme-ivory .app-modal-bg {  
+            background-color: #fcfbfa;  
+            color: #2c2a29;  
             border-color: #e2dcce;  
         }  
   
@@ -442,7 +457,7 @@
   
     <!-- [모달] 폴더 생성 -->  
     <div id="modal-folder-add" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">  
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-xs p-5 rounded-xl space-y-4 shadow-xl">  
+        <div class="app-modal-bg border w-full max-w-xs p-5 rounded-xl space-y-4 shadow-xl">  
             <h3 class="text-sm font-bold">새 폴더</h3>  
             <input type="text" id="folder-name-input" placeholder="폴더 이름" class="w-full border border-slate-300 dark:border-slate-700 p-2 text-xs rounded-md bg-inherit focus:outline-none">  
             <div class="flex gap-2 justify-end">  
@@ -454,7 +469,7 @@
   
     <!-- [모달] 묶음 생성 -->  
     <div id="modal-set-add" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">  
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-xs p-5 rounded-xl space-y-4 shadow-xl">  
+        <div class="app-modal-bg border w-full max-w-xs p-5 rounded-xl space-y-4 shadow-xl">  
             <h3 class="text-sm font-bold">새 묶음</h3>  
             <input type="text" id="set-name-input" placeholder="묶음 이름" class="w-full border border-slate-300 dark:border-slate-700 p-2 text-xs rounded-md bg-inherit focus:outline-none">  
             <div class="flex gap-2 justify-end">  
@@ -466,7 +481,7 @@
   
     <!-- [모달] 통합 데이터 동기화 & 공유 -->  
     <div id="modal-sync" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">  
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-sm p-5 rounded-2xl space-y-4 shadow-xl">  
+        <div class="app-modal-bg border w-full max-w-sm p-5 rounded-2xl space-y-4 shadow-xl">  
             <div class="flex justify-between items-center border-b pb-2 border-slate-200 dark:border-slate-800">  
                 <div class="flex items-center gap-2">  
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>  
@@ -514,7 +529,7 @@
   
     <!-- [모달] 테마 선택 -->  
     <div id="modal-theme" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">  
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-xs p-5 rounded-2xl space-y-4 shadow-xl">  
+        <div class="app-modal-bg border w-full max-w-xs p-5 rounded-2xl space-y-4 shadow-xl">  
             <div class="flex justify-between items-center border-b pb-2 border-slate-200 dark:border-slate-800">  
                 <h3 class="text-sm font-bold">테마 선택</h3>  
                 <button onclick="toggleThemeModal()" class="opacity-40 hover:opacity-100 text-base">✕</button>  
@@ -544,7 +559,7 @@
   
     <!-- [모달] 도움말 -->  
     <div id="modal-help" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">  
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-sm p-5 rounded-2xl space-y-4 text-xs shadow-xl">  
+        <div class="app-modal-bg border w-full max-w-sm p-5 rounded-2xl space-y-4 text-xs shadow-xl">  
             <div class="flex justify-between items-center border-b pb-2 border-slate-200 dark:border-slate-800">  
                 <h3 class="font-bold">난이도 안내</h3>  
                 <button onclick="toggleHelpModal()" class="opacity-40 hover:opacity-100 text-base">✕</button>  
@@ -566,7 +581,7 @@
   
     <!-- [모달] 삭제 확인 -->  
     <div id="modal-delete-confirm" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">  
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-xs p-5 rounded-2xl space-y-4 text-center shadow-xl">  
+        <div class="app-modal-bg border w-full max-w-xs p-5 rounded-2xl space-y-4 text-center shadow-xl">  
             <h3 class="text-sm font-bold" id="delete-modal-title">삭제하시겠습니까?</h3>  
             <p class="text-xs opacity-50">이 작업은 취소할 수 없습니다.</p>  
             <div class="flex gap-2">  
@@ -1782,238 +1797,245 @@
                 setTimeout(() => {  
                     if (!isSequenceReviewStage && sequenceUnlearned.length > 0) {  
                         isSequenceReviewStage = true;  
-                        showToast("틀린 항목 오답 복습 시작!");  
-                        document.getElementById("sequence-stage-indicator").innerText = "(오답 복습)";  
-                        sequenceItems = shuffle([...sequenceUnlearned]);  
-                        sequenceUnlearned = [];  
-                        renderSequenceItems();  
-                    } else {  
-                        completeStudy();  
+                        showToast("틀린 항목 오답 복습");  
                     }  
-                }, 1800);  
+                }, 1500);  
             }  
         }  
-  
+
         // ==========================================  
-        // 3. 분류 모드 (CLASSIFY) - 오답 마지막 모아 풀기 지원  
+        // 3. 분류 모드 (CLASSIFY)  
         // ==========================================  
-        let classifyList = [];   
-        let classifyUnlearnedList = [];
+        let classifyList = [];  
+        let classifyUnlearned = [];  
         let currentClassifyIndex = 0;  
-        let isClassifyReviewStage = false;
+        let classifyGroups = [];  
+        let isClassifyFlipped = false;  
 
         function initClassifyStudy(isResume) {  
             const set = findSetById(selectedSetId);  
             document.getElementById("classify-diff-label").innerText = currentDifficulty;  
-            classifyList = shuffle([...set.cards.CLASSIFY]);  
-            classifyUnlearnedList = [];
-            currentClassifyIndex = 0;  
-            isClassifyReviewStage = false;
-            document.getElementById("classify-stage-indicator").innerText = "";
-  
-            renderClassifyCategoryButtons();  
+            const rawCards = set.cards.CLASSIFY || [];  
+            classifyGroups = [...new Set(rawCards.map(c => c.group))];  
+
+            const key = `${selectedSetId}_CLASSIFY_${currentDifficulty}`;  
+            if (isResume && studySessions[key]) {  
+                const s = studySessions[key];  
+                classifyList = s.currentPool;  
+                classifyUnlearned = s.unlearned;  
+                currentClassifyIndex = s.currentIndex;  
+            } else {  
+                classifyList = shuffle([...rawCards]);  
+                classifyUnlearned = [];  
+                currentClassifyIndex = 0;  
+                studySessions[key] = { currentPool: classifyList, unlearned: classifyUnlearned, currentIndex: 0 };  
+                saveSessionsToLocalStorage();  
+            }  
             renderClassifyCard();  
             changeView("view-study-classify");  
         }  
-  
-        function renderClassifyCategoryButtons() {  
-            const set = findSetById(selectedSetId);  
-            const groups = [...new Set(set.cards.CLASSIFY.map(c => c.group))];  
-            const container = document.getElementById("classify-category-buttons");  
-            container.innerHTML = "";  
-  
-            groups.forEach(group => {  
-                const btn = document.createElement("button");  
-                btn.className = "py-2.5 px-3 border border-slate-300 dark:border-slate-700 rounded-lg text-xs font-bold hover:bg-slate-500/10 transition-colors";  
-                btn.innerText = group;  
-                btn.onclick = () => selectClassifyCategory(group);  
-                container.appendChild(btn);  
-            });  
-        }  
-  
+
         function renderClassifyCard() {  
             if (currentClassifyIndex >= classifyList.length) {  
-                if (!isClassifyReviewStage && classifyUnlearnedList.length > 0) {
-                    isClassifyReviewStage = true;
-                    showToast("틀린 항목 오답 복습 시작!");
-                    document.getElementById("classify-stage-indicator").innerText = "(오답 복습)";
-                    classifyList = shuffle([...classifyUnlearnedList]);
-                    classifyUnlearnedList = [];
-                    currentClassifyIndex = 0;
-                    renderClassifyCard();
-                } else {
+                if (classifyUnlearned.length > 0) {  
+                    showToast("오답 복습 진행");  
+                    classifyList = shuffle([...classifyUnlearned]);  
+                    classifyUnlearned = [];  
+                    currentClassifyIndex = 0;  
+                    renderClassifyCard();  
+                } else {  
                     completeStudy();  
-                }
+                }  
                 return;  
             }  
-            const item = classifyList[currentClassifyIndex];  
-            document.getElementById("classify-card-name").innerText = currentDifficulty === "RE" ? item.desc : item.card;  
-            document.getElementById("classify-card-desc").innerText = currentDifficulty === "RE" ? item.card : item.desc;  
+
+            isClassifyFlipped = false;  
             document.getElementById("classify-flip-card-inner").classList.remove("flipped");  
+
+            const card = classifyList[currentClassifyIndex];  
+            const nameEl = document.getElementById("classify-card-name");  
+            const descEl = document.getElementById("classify-card-desc");  
+
+            if (currentDifficulty === "RE") {  
+                nameEl.innerText = card.desc;  
+                descEl.innerText = card.card;  
+            } else {  
+                nameEl.innerText = card.card;  
+                descEl.innerText = card.desc;  
+            }  
+
             document.getElementById("classify-left-count").innerText = (classifyList.length - currentClassifyIndex);  
             const progress = (currentClassifyIndex / classifyList.length) * 100;  
             document.getElementById("classify-progress-bar").style.width = `${progress}%`;  
+
+            renderClassifyCategoryButtons(card.group);  
             document.getElementById("classify-feedback").classList.add("hidden");  
         }  
-  
+
         function flipClassifyCard() {  
-            document.getElementById("classify-flip-card-inner").classList.toggle("flipped");  
+            isClassifyFlipped = !isClassifyFlipped;  
+            document.getElementById("classify-flip-card-inner").classList.toggle("flipped", isClassifyFlipped);  
         }  
-  
-        function selectClassifyCategory(group) {  
-            const item = classifyList[currentClassifyIndex];  
+
+        function renderClassifyCategoryButtons(correctGroup) {  
+            const container = document.getElementById("classify-category-buttons");  
+            container.innerHTML = "";  
+
+            let buttonsData = [...classifyGroups];  
+            if (!buttonsData.includes(correctGroup)) buttonsData.push(correctGroup);  
+            buttonsData = shuffle(buttonsData);  
+
+            buttonsData.forEach(grp => {  
+                const btn = document.createElement("button");  
+                btn.className = "border border-slate-300 dark:border-slate-700 py-3 px-3 rounded-xl text-xs font-bold hover:bg-slate-500/10 transition-colors text-center truncate app-card-bg";  
+                btn.innerText = grp;  
+                btn.onclick = () => checkClassifyAnswer(grp, correctGroup);  
+                container.appendChild(btn);  
+            });  
+        }  
+
+        function checkClassifyAnswer(selectedGroup, correctGroup) {  
             const fb = document.getElementById("classify-feedback");  
             fb.classList.remove("hidden");  
-  
-            if (item.group === group) {  
+
+            if (selectedGroup === correctGroup) {  
                 fb.className = "p-3 border border-emerald-300 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-lg text-xs font-bold text-center";  
-                fb.innerText = "정답입니다";  
+                fb.innerText = "정답입니다!";  
                 setTimeout(() => {  
                     currentClassifyIndex++;  
+                    saveCurrentClassifyState();  
                     renderClassifyCard();  
                 }, 800);  
             } else {  
                 fb.className = "p-3 border border-red-300 bg-red-500/10 text-red-600 dark:text-red-400 rounded-lg text-xs font-bold text-center";  
-                fb.innerText = `오답입니다 (정답 그룹: ${item.group})`;  
-                if (!classifyUnlearnedList.some(u => u.card === item.card && u.group === item.group)) {
-                    classifyUnlearnedList.push(item);
-                }
+                fb.innerText = `오답! (정답 그룹: ${correctGroup})`;  
+                const currentCard = classifyList[currentClassifyIndex];  
+                if (!classifyUnlearned.some(u => u.card === currentCard.card)) {  
+                    classifyUnlearned.push(currentCard);  
+                }  
                 setTimeout(() => {  
                     currentClassifyIndex++;  
+                    saveCurrentClassifyState();  
                     renderClassifyCard();  
                 }, 1200);  
             }  
         }  
 
+        function saveCurrentClassifyState() {  
+            const key = `${selectedSetId}_CLASSIFY_${currentDifficulty}`;  
+            studySessions[key] = { currentPool: classifyList, unlearned: classifyUnlearned, currentIndex: currentClassifyIndex };  
+            saveSessionsToLocalStorage();  
+        }  
+
+        // ==========================================  
+        // 학습 완료 및 데이터 편집 관리  
+        // ==========================================  
         function completeStudy() {  
             const set = findSetById(selectedSetId);  
             if (set) {  
                 set.count = (set.count || 0) + 1;  
                 saveToLocalStorage();  
-                document.getElementById("complete-count-before").innerText = set.count - 1;  
+                document.getElementById("complete-count-before").innerText = (set.count - 1);  
                 document.getElementById("complete-count-after").innerText = set.count;  
             }  
+
             const modes = ["MEMORIZE", "SEQUENCE", "CLASSIFY"];  
             modes.forEach(m => {  
                 delete studySessions[`${selectedSetId}_${m}_${currentDifficulty}`];  
             });  
             saveSessionsToLocalStorage();  
+
             changeView("view-study-complete");  
         }  
-  
+
         function goToCurrentSetDetail() {  
-            if (selectedSetId) {  
-                renderSetDetail(selectedSetId);  
-                changeView("view-set-detail");  
-            } else {  
-                goHome();  
-            }  
+            renderSetDetail(selectedSetId);  
+            changeView("view-set-detail", false);  
         }  
 
-        // ==========================================  
-        // 4. 데이터 카드 편집 관리 기능  
-        // ==========================================  
-        let editingDataTab = "MEMORIZE";  
-        let editingSetBackup = null;  
-  
+        let currentEditingTab = "MEMORIZE";  
+
         function openSetDataEdit() {  
-            const set = findSetById(selectedSetId);  
-            if (!set) return;  
-            editingSetBackup = JSON.parse(JSON.stringify(set));  
-            switchDataTab("MEMORIZE");  
+            switchDataTab('MEMORIZE');  
             renderDataEditLists();  
             changeView("view-data-edit");  
         }  
-  
+
         function switchDataTab(tab) {  
-            editingDataTab = tab;  
+            currentEditingTab = tab;  
             ["MEMORIZE", "SEQUENCE", "CLASSIFY"].forEach(t => {  
                 const contentEl = document.getElementById(`data-tab-content-${t.toLowerCase()}`);  
                 const btnEl = document.getElementById(`tab-btn-${t.toLowerCase()}`);  
-                if (contentEl) contentEl.classList.toggle("hidden", t !== tab);  
-                if (btnEl) {  
-                    if (t === tab) {  
-                        btnEl.className = "flex-1 py-2 font-bold text-center border-b-2 border-slate-900 dark:border-slate-100";  
-                    } else {  
-                        btnEl.className = "flex-1 py-2 font-bold text-center border-b-2 border-transparent opacity-50";  
-                    }  
+                if (t === tab) {  
+                    contentEl.classList.remove("hidden");  
+                    btnEl.className = "flex-1 py-2 font-bold text-center border-b-2 border-slate-900 dark:border-slate-100 opacity-100";  
+                } else {  
+                    contentEl.classList.add("hidden");  
+                    btnEl.className = "flex-1 py-2 font-bold text-center border-b-2 border-transparent opacity-50";  
                 }  
             });  
         }  
-  
+
         function renderDataEditLists() {  
             const set = findSetById(selectedSetId);  
             if (!set) return;  
-  
-            // 1. 암기 목록 렌더링  
+
+            if (!set.cards) set.cards = { MEMORIZE: [], SEQUENCE: [], CLASSIFY: [] };  
+
+            // MEMORIZE
             const memListEl = document.getElementById("data-list-memorize");  
             memListEl.innerHTML = "";  
-            if (set.cards.MEMORIZE.length === 0) {  
-                memListEl.innerHTML = `<p class="text-[11px] opacity-40 text-center py-4">카드가 없습니다.</p>`;  
-            } else {  
-                set.cards.MEMORIZE.forEach((card, idx) => {  
-                    const div = document.createElement("div");  
-                    div.className = "flex items-center justify-between border border-slate-200 dark:border-slate-800 p-2 rounded-lg text-xs app-card-bg";  
-                    div.innerHTML = `  
-                        <div class="flex-grow grid grid-cols-2 gap-2 mr-2">  
-                            <span class="font-bold truncate">${escapeHtml(card.front)}</span>  
-                            <span class="opacity-70 truncate">${escapeHtml(card.back)}</span>  
-                        </div>  
-                        <button onclick="deleteMemorizeCardRow(${idx})" class="text-red-500 hover:opacity-75 px-2 text-xs font-bold">✕</button>  
-                    `;  
-                    memListEl.appendChild(div);  
-                });  
-            }  
-  
-            // 2. 배열 목록 렌더링  
+            set.cards.MEMORIZE.forEach((card, idx) => {  
+                const div = document.createElement("div");  
+                div.className = "flex items-center gap-2 p-2 border border-slate-200 dark:border-slate-800 rounded-lg app-card-bg text-xs";  
+                div.innerHTML = `  
+                    <input type="text" value="${escapeHtml(card.front)}" onchange="updateMemCard(${idx}, 'front', this.value)" class="flex-1 border border-slate-300 dark:border-slate-700 p-1.5 rounded bg-inherit focus:outline-none" placeholder="앞면">  
+                    <input type="text" value="${escapeHtml(card.back)}" onchange="updateMemCard(${idx}, 'back', this.value)" class="flex-1 border border-slate-300 dark:border-slate-700 p-1.5 rounded bg-inherit focus:outline-none" placeholder="뒷면">  
+                    <button onclick="removeMemCard(${idx})" class="text-red-500 font-bold px-2 py-1">✕</button>  
+                `;  
+                memListEl.appendChild(div);  
+            });  
+
+            // SEQUENCE
             const seqListEl = document.getElementById("data-list-sequence");  
             seqListEl.innerHTML = "";  
-            if (set.cards.SEQUENCE.length === 0) {  
-                seqListEl.innerHTML = `<p class="text-[11px] opacity-40 text-center py-4">카드가 없습니다.</p>`;  
-            } else {  
-                set.cards.SEQUENCE.forEach((item, idx) => {  
-                    const div = document.createElement("div");  
-                    div.className = "flex items-center justify-between border border-slate-200 dark:border-slate-800 p-2 rounded-lg text-xs app-card-bg";  
-                    div.innerHTML = `  
-                        <div class="flex-grow mr-2 overflow-hidden">  
-                            <span class="font-bold block truncate">${escapeHtml(item.text)}</span>  
-                            <span class="opacity-60 block text-[10px] truncate">${escapeHtml(item.desc)}</span>  
-                        </div>  
-                        <button onclick="deleteSequenceRow(${idx})" class="text-red-500 hover:opacity-75 px-2 text-xs font-bold">✕</button>  
-                    `;  
-                    seqListEl.appendChild(div);  
-                });  
-            }  
-  
-            // 3. 분류 목록 렌더링  
+            set.cards.SEQUENCE.forEach((item, idx) => {  
+                const div = document.createElement("div");  
+                div.className = "space-y-1.5 p-2.5 border border-slate-200 dark:border-slate-800 rounded-lg app-card-bg text-xs";  
+                div.innerHTML = `  
+                    <div class="flex gap-2">  
+                        <input type="text" value="${escapeHtml(item.text)}" onchange="updateSeqItem(${idx}, 'text', this.value)" class="flex-1 border border-slate-300 dark:border-slate-700 p-1.5 rounded bg-inherit focus:outline-none" placeholder="항목 명칭">  
+                        <button onclick="removeSeqItem(${idx})" class="text-red-500 font-bold px-2 py-1">✕</button>  
+                    </div>  
+                    <input type="text" value="${escapeHtml(item.desc)}" onchange="updateSeqItem(${idx}, 'desc', this.value)" class="w-full border border-slate-300 dark:border-slate-700 p-1.5 rounded bg-inherit focus:outline-none" placeholder="상세 설명">  
+                `;  
+                seqListEl.appendChild(div);  
+            });  
+
+            // CLASSIFY
             const clsListEl = document.getElementById("data-list-classify");  
             clsListEl.innerHTML = "";  
-            if (set.cards.CLASSIFY.length === 0) {  
-                clsListEl.innerHTML = `<p class="text-[11px] opacity-40 text-center py-4">카드가 없습니다.</p>`;  
-            } else {  
-                set.cards.CLASSIFY.forEach((item, idx) => {  
-                    const div = document.createElement("div");  
-                    div.className = "flex items-center justify-between border border-slate-200 dark:border-slate-800 p-2 rounded-lg text-xs app-card-bg";  
-                    div.innerHTML = `  
-                        <div class="flex-grow mr-2 overflow-hidden">  
-                            <div class="flex items-center gap-1.5">  
-                                <span class="font-bold truncate">${escapeHtml(item.card)}</span>  
-                                <span class="text-[10px] bg-slate-500/10 px-1.5 py-0.5 rounded font-mono">${escapeHtml(item.group)}</span>  
-                            </div>  
-                            <span class="opacity-60 block text-[10px] truncate">${escapeHtml(item.desc)}</span>  
+            set.cards.CLASSIFY.forEach((item, idx) => {  
+                const div = document.createElement("div");  
+                div.className = "space-y-1.5 p-2.5 border border-slate-200 dark:border-slate-800 rounded-lg app-card-bg text-xs";  
+                div.innerHTML = `  
+                    <div class="grid grid-cols-2 gap-2">  
+                        <input type="text" value="${escapeHtml(item.card)}" onchange="updateClsItem(${idx}, 'card', this.value)" class="border border-slate-300 dark:border-slate-700 p-1.5 rounded bg-inherit focus:outline-none" placeholder="카드명">  
+                        <div class="flex gap-2">  
+                            <input type="text" value="${escapeHtml(item.group)}" onchange="updateClsItem(${idx}, 'group', this.value)" class="flex-1 border border-slate-300 dark:border-slate-700 p-1.5 rounded bg-inherit focus:outline-none" placeholder="대분류명">  
+                            <button onclick="removeClsItem(${idx})" class="text-red-500 font-bold px-2 py-1">✕</button>  
                         </div>  
-                        <button onclick="addClassifyRowDelete(${idx})" class="text-red-500 hover:opacity-75 px-2 text-xs font-bold">✕</button>  
-                    `;  
-                    clsListEl.appendChild(div);  
-                });  
-            }  
+                    </div>  
+                    <input type="text" value="${escapeHtml(item.desc)}" onchange="updateClsItem(${idx}, 'desc', this.value)" class="w-full border border-slate-300 dark:border-slate-700 p-1.5 rounded bg-inherit focus:outline-none" placeholder="상세 설명">  
+                `;  
+                clsListEl.appendChild(div);  
+            });  
         }  
-  
+
         function addMemorizeCardRow() {  
             const front = document.getElementById("add-mem-front").value.trim();  
             const back = document.getElementById("add-mem-back").value.trim();  
             if (!front || !back) { showToast("앞면과 뒷면을 모두 입력하세요."); return; }  
-  
             const set = findSetById(selectedSetId);  
             if (!set) return;  
             set.cards.MEMORIZE.push({ front, back });  
@@ -2022,64 +2044,67 @@
             renderDataEditLists();  
             showToast("추가되었습니다.");  
         }  
-  
-        function deleteMemorizeCardRow(idx) {  
+        function updateMemCard(idx, field, val) {  
             const set = findSetById(selectedSetId);  
-            if (!set) return;  
-            set.cards.MEMORIZE.splice(idx, 1);  
-            renderDataEditLists();  
+            if (set && set.cards.MEMORIZE[idx]) { set.cards.MEMORIZE[idx][field] = val; }  
         }  
-  
+        function removeMemCard(idx) {  
+            const set = findSetById(selectedSetId);  
+            if (set) { set.cards.MEMORIZE.splice(idx, 1); renderDataEditLists(); }  
+        }  
+
         function addSequenceRow() {  
             const text = document.getElementById("add-seq-text").value.trim();  
             const desc = document.getElementById("add-seq-desc").value.trim();  
             if (!text) { showToast("항목 명칭을 입력하세요."); return; }  
-  
             const set = findSetById(selectedSetId);  
             if (!set) return;  
-            set.cards.SEQUENCE.push({ text, desc: desc || "" });  
+            set.cards.SEQUENCE.push({ text, desc });  
             document.getElementById("add-seq-text").value = "";  
             document.getElementById("add-seq-desc").value = "";  
             renderDataEditLists();  
             showToast("추가되었습니다.");  
         }  
-  
-        function deleteSequenceRow(idx) {  
+        function updateSeqItem(idx, field, val) {  
             const set = findSetById(selectedSetId);  
-            if (!set) return;  
-            set.cards.SEQUENCE.splice(idx, 1);  
-            renderDataEditLists();  
+            if (set && set.cards.SEQUENCE[idx]) { set.cards.SEQUENCE[idx][field] = val; }  
         }  
-  
+        function removeSeqItem(idx) {  
+            const set = findSetById(selectedSetId);  
+            if (set) { set.cards.SEQUENCE.splice(idx, 1); renderDataEditLists(); }  
+        }  
+
         function addClassifyRow() {  
             const card = document.getElementById("add-cls-card").value.trim();  
             const group = document.getElementById("add-cls-group").value.trim();  
             const desc = document.getElementById("add-cls-desc").value.trim();  
-            if (!card || !group) { showToast("카드명과 그룹명을 입력하세요."); return; }  
-  
+            if (!card || !group) { showToast("카드명과 대분류명을 입력하세요."); return; }  
             const set = findSetById(selectedSetId);  
             if (!set) return;  
-            set.cards.CLASSIFY.push({ card, group, desc: desc || "" });  
+            set.cards.CLASSIFY.push({ card, group, desc });  
             document.getElementById("add-cls-card").value = "";  
             document.getElementById("add-cls-group").value = "";  
             document.getElementById("add-cls-desc").value = "";  
             renderDataEditLists();  
             showToast("추가되었습니다.");  
         }  
-  
-        function addClassifyRowDelete(idx) {  
+        function updateClsItem(idx, field, val) {  
             const set = findSetById(selectedSetId);  
-            if (!set) return;  
-            set.cards.CLASSIFY.splice(idx, 1);  
-            renderDataEditLists();  
+            if (set && set.cards.CLASSIFY[idx]) { set.cards.CLASSIFY[idx][field] = val; }  
         }  
-  
+        function removeClsItem(idx) {  
+            const set = findSetById(selectedSetId);  
+            if (set) { set.cards.CLASSIFY.splice(idx, 1); renderDataEditLists(); }  
+        }  
+
         function saveAndExitDataEdit() {  
             saveToLocalStorage();  
+            goToCurrentSetDetail();  
             showToast("저장되었습니다.");  
-            renderSetDetail(selectedSetId);  
-            changeView("view-set-detail");  
         }  
     </script>  
 </body>  
-</html>
+</html>  
+```eof
+
+*Vorschläge hinzugefügt*
