@@ -14,7 +14,7 @@
     <!-- LZString 압축/복호화 라이브러리 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
     <style>  
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght=300;400;500;700&display=swap');  
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');  
           
         body {  
             font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;  
@@ -121,7 +121,7 @@
     </style>  
 </head>  
 <body class="min-h-screen flex flex-col justify-between theme-white">  
-  
+
     <!-- 헤더 -->  
     <header class="border-b border-slate-200/60 dark:border-slate-800 py-3 px-5 sticky top-0 bg-inherit z-40">  
         <div class="max-w-md mx-auto flex items-center justify-between">  
@@ -152,7 +152,7 @@
             </div>  
         </div>  
     </header>  
-  
+
     <!-- 메인 컨텐츠 영역 -->  
     <main class="flex-grow w-full max-w-md mx-auto px-4 py-5">  
   
@@ -201,7 +201,7 @@
                 <!-- 묶음 목록 동적 삽입 -->  
             </div>  
         </section>  
-  
+
         <!-- [3] 묶음 상세 화면: 모드 및 난이도 선택 -->  
         <section id="view-set-detail" class="hidden space-y-5">  
             <div class="border-b border-slate-200 dark:border-slate-800 pb-3 flex justify-between items-start">  
@@ -310,7 +310,7 @@
         <!-- [5] 배열 모드 (SEQUENCE) -->  
         <section id="view-study-sequence" class="hidden space-y-4">  
             <div class="flex justify-between items-center text-xs opacity-70 border-b border-slate-200 dark:border-slate-800 pb-2">  
-                <div>배열 모드 (<span id="sequence-diff-label" class="font-bold">메</span>)</div>  
+                <div>배열 모드 (<span id="sequence-diff-label" class="font-bold">메</span>) <span id="sequence-stage-indicator" class="ml-2 font-semibold"></span></div>  
             </div>  
   
             <div id="sequence-list-container" class="space-y-2 relative"></div>  
@@ -326,7 +326,7 @@
         <!-- [6] 분류 모드 (CLASSIFY) -->  
         <section id="view-study-classify" class="hidden space-y-4">  
             <div class="flex justify-between items-center text-xs opacity-70 border-b border-slate-200 dark:border-slate-800 pb-2">  
-                <div>분류 모드 (<span id="classify-diff-label" class="font-bold">메</span>)</div>  
+                <div>분류 모드 (<span id="classify-diff-label" class="font-bold">메</span>) <span id="classify-stage-indicator" class="ml-2 font-semibold"></span></div>  
                 <div>남은 카드: <span id="classify-left-count" class="font-bold">0</span></div>  
             </div>  
   
@@ -359,7 +359,7 @@
                 <div id="classify-progress-bar" class="bg-slate-900 dark:bg-slate-100 h-full transition-all duration-300" style="width: 0%"></div>  
             </div>  
         </section>  
-  
+
         <!-- [7] 학습 완료 화면 -->  
         <section id="view-study-complete" class="hidden text-center py-12 space-y-6">  
             <div class="w-16 h-16 mx-auto bg-emerald-500/10 text-emerald-500 border border-emerald-500/30 rounded-full flex items-center justify-center">  
@@ -578,7 +578,7 @@
   
     <!-- 토스트 메시지 용기 -->  
     <div id="toast-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 pointer-events-none z-50 w-auto max-w-xs px-4"></div>  
-  
+
     <!-- ==================== 스크립트 엔진 ==================== -->  
     <script>  
         const DEFAULT_DATA = {  
@@ -717,7 +717,7 @@
             renderHome();  
             changeView("view-home", false);  
         }  
-  
+
         function renderHome() {  
             const listEl = document.getElementById("folder-list");  
             if (!listEl) return;  
@@ -1037,7 +1037,6 @@
             document.getElementById("modal-help")?.classList.toggle("hidden");  
         }  
 
-        // LZString 데이터 압축/복호화 다각화 도우미
         function compressData(jsonObj) {
             const jsonStr = JSON.stringify(jsonObj);
             if (window.LZString && typeof window.LZString.compressToEncodedURIComponent === 'function') {
@@ -1046,12 +1045,10 @@
             return jsonStr;
         }
 
-        // 구버전 및 다양한 인코딩 방식 대응 복호화
         function decompressData(str) {
             if (!str || typeof str !== 'string') return null;
             const cleanStr = str.trim();
 
-            // 1. 순수 JSON 문자열 시도
             try {
                 const parsed = JSON.parse(cleanStr);
                 if (parsed && typeof parsed === 'object') return parsed;
@@ -1059,7 +1056,6 @@
 
             if (!window.LZString) return null;
 
-            // 2. EncodedURIComponent 시도
             try {
                 const decomp = LZString.decompressFromEncodedURIComponent(cleanStr);
                 if (decomp) {
@@ -1068,7 +1064,6 @@
                 }
             } catch(e) {}
 
-            // 3. Base64 시도
             try {
                 const decomp = LZString.decompressFromBase64(cleanStr);
                 if (decomp) {
@@ -1077,7 +1072,6 @@
                 }
             } catch(e) {}
 
-            // 4. Raw Decompress 시도
             try {
                 const decomp = LZString.decompress(cleanStr);
                 if (decomp) {
@@ -1086,7 +1080,6 @@
                 }
             } catch(e) {}
 
-            // 5. UTF16 시도
             try {
                 const decomp = LZString.decompressFromUTF16(cleanStr);
                 if (decomp) {
@@ -1098,16 +1091,13 @@
             return null;
         }
 
-        // 파싱된 객체를 표준 appData 구조({ folders: [...] })로 자동 규격화
         function normalizeToAppData(parsed) {
             if (!parsed || typeof parsed !== 'object') return null;
 
-            // 이미 최신 appData 구조인 경우
             if (parsed.folders && Array.isArray(parsed.folders)) {
                 return parsed;
             }
 
-            // 구버전: 폴더 배열이 루트로 들어온 경우 ([ { name: "...", sets: [...] } ])
             if (Array.isArray(parsed)) {
                 const folders = parsed.map((item, i) => {
                     if (item.sets && Array.isArray(item.sets)) {
@@ -1129,7 +1119,6 @@
                 if (folders.length > 0) return { folders };
             }
 
-            // 구버전: 단일 폴더 객체만 들어온 경우 ({ name: "...", sets: [...] })
             if (parsed.sets && Array.isArray(parsed.sets)) {
                 return {
                     folders: [{
@@ -1140,7 +1129,6 @@
                 };
             }
 
-            // 구버전: 단일 묶음 세트만 들어온 경우
             if ((parsed.type === "MEMORE_SET_BUNDLE" && parsed.set) || parsed.cards) {
                 const setObj = parsed.set || parsed;
                 return {
@@ -1160,7 +1148,6 @@
             return null;
         }
 
-        // 코드에서 모든 세트(묶음) 정보만 추출하는 보조 함수
         function extractSetsFromParsed(parsed) {
             if (!parsed || typeof parsed !== 'object') return [];
 
@@ -1435,9 +1422,9 @@
             }  
             return result;  
         }  
-  
+
         // ==========================================  
-        // 1. 암기 모드 (MEMORIZE)  
+        // 1. 암기 모드 (MEMORIZE) - Pointer Events 적용  
         // ==========================================  
         let currentMemorizeIndex = 0;   
         let memorizeList = [];   
@@ -1449,6 +1436,7 @@
         let dragCurrentX = 0;  
         let dragCurrentY = 0;  
         let isDraggingCard = false;  
+        let activePointerId = null;  
   
         function initMemorizeStudy(isResume) {  
             const set = findSetById(selectedSetId);  
@@ -1564,35 +1552,30 @@
             const container = document.getElementById("memorize-drag-container");  
             if (!container) return;  
   
-            container.addEventListener("touchstart", (e) => handleDragStart(e.touches[0].clientX, e.touches[0].clientY), { passive: true });  
-            window.addEventListener("touchmove", (e) => {  
-                if (isDraggingCard && e.touches[0]) handleDragMove(e.touches[0].clientX, e.touches[0].clientY);  
-            }, { passive: true });  
-            window.addEventListener("touchend", handleDragEnd);  
-  
-            container.addEventListener("mousedown", (e) => handleDragStart(e.clientX, e.clientY));  
-            window.addEventListener("mousemove", (e) => {  
-                if (isDraggingCard) handleDragMove(e.clientX, e.clientY);  
-            });  
-            window.addEventListener("mouseup", handleDragEnd);  
+            container.addEventListener("pointerdown", handlePointerDown);  
+            window.addEventListener("pointermove", handlePointerMove);  
+            window.addEventListener("pointerup", handlePointerUp);  
+            window.addEventListener("pointercancel", handlePointerUp);  
         }  
   
-        function handleDragStart(x, y) {  
+        function handlePointerDown(e) {  
             if (currentView !== "view-study-memorize") return;  
             isDraggingCard = true;  
-            dragStartX = x;  
-            dragStartY = y;  
-            dragCurrentX = x;  
-            dragCurrentY = y;  
+            activePointerId = e.pointerId;  
+            dragStartX = e.clientX;  
+            dragStartY = e.clientY;  
+            dragCurrentX = e.clientX;  
+            dragCurrentY = e.clientY;  
   
             const container = document.getElementById("memorize-drag-container");  
             container.classList.remove("drag-transition");  
+            try { container.setPointerCapture(e.pointerId); } catch(err) {}  
         }  
   
-        function handleDragMove(x, y) {  
-            if (!isDraggingCard) return;  
-            dragCurrentX = x;  
-            dragCurrentY = y;  
+        function handlePointerMove(e) {  
+            if (!isDraggingCard || e.pointerId !== activePointerId) return;  
+            dragCurrentX = e.clientX;  
+            dragCurrentY = e.clientY;  
   
             const deltaX = dragCurrentX - dragStartX;  
             const deltaY = dragCurrentY - dragStartY;  
@@ -1602,14 +1585,17 @@
             container.style.transform = `translate(${deltaX}px, ${deltaY * 0.2}px) rotate(${rotation}deg)`;  
         }  
   
-        function handleDragEnd() {  
-            if (!isDraggingCard) return;  
+        function handlePointerUp(e) {  
+            if (!isDraggingCard || e.pointerId !== activePointerId) return;  
             isDraggingCard = false;  
+  
+            const container = document.getElementById("memorize-drag-container");  
+            try { container.releasePointerCapture(e.pointerId); } catch(err) {}  
+            activePointerId = null;  
   
             const deltaX = dragCurrentX - dragStartX;  
             const deltaY = dragCurrentY - dragStartY;  
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);  
-            const container = document.getElementById("memorize-drag-container");  
   
             if (distance < 10) {  
                 flipMemorizeCard();  
@@ -1634,21 +1620,29 @@
   
         function resetCardPosition() {  
             const container = document.getElementById("memorize-drag-container");  
+            if (!container) return;  
             container.classList.add("drag-transition");  
             container.style.transform = "translate(0px, 0px) rotate(0deg)";  
         }  
-  
+
         // ==========================================  
-        // 2. 배열 모드 (SEQUENCE)  
+        // 2. 배열 모드 (SEQUENCE) - 오답 반복 지원  
         // ==========================================  
         let sequenceItems = [];  
+        let sequenceOriginalMaster = [];  
+        let sequenceUnlearned = [];  
+        let isSequenceReviewStage = false;  
         let draggedSeqIndex = null;  
         let seqTouchDraggedIndex = null;  
   
         function initSequenceStudy(isResume) {  
             const set = findSetById(selectedSetId);  
             document.getElementById("sequence-diff-label").innerText = currentDifficulty;  
-            sequenceItems = shuffle([...set.cards.SEQUENCE]);  
+            sequenceOriginalMaster = [...set.cards.SEQUENCE];  
+            sequenceItems = shuffle([...sequenceOriginalMaster]);  
+            sequenceUnlearned = [];  
+            isSequenceReviewStage = false;  
+            document.getElementById("sequence-stage-indicator").innerText = "";  
             renderSequenceItems();  
             changeView("view-study-sequence");  
         }  
@@ -1746,12 +1740,10 @@
         }  
   
         function checkSequenceAnswer() {  
-            const set = findSetById(selectedSetId);  
-            const original = set.cards.SEQUENCE;  
             let isCorrect = true;  
   
             for (let i = 0; i < sequenceItems.length; i++) {  
-                if (sequenceItems[i].text !== original[i].text) {  
+                if (sequenceItems[i].text !== sequenceOriginalMaster[i].text) {  
                     isCorrect = false;  
                     break;  
                 }  
@@ -1761,25 +1753,63 @@
             fb.classList.remove("hidden");  
             if (isCorrect) {  
                 fb.className = "p-3 border border-emerald-300 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-lg text-xs text-center font-bold";  
-                fb.innerText = "정답입니다";  
-                setTimeout(() => { completeStudy(); }, 1000);  
+                fb.innerText = "정답입니다!";  
+                setTimeout(() => {  
+                    if (!isSequenceReviewStage && sequenceUnlearned.length > 0) {  
+                        isSequenceReviewStage = true;  
+                        showToast("틀린 항목 오답 복습 시작!");  
+                        document.getElementById("sequence-stage-indicator").innerText = "(오답 복습)";  
+                        sequenceItems = shuffle([...sequenceUnlearned]);  
+                        sequenceUnlearned = [];  
+                        renderSequenceItems();  
+                    } else {  
+                        completeStudy();  
+                    }  
+                }, 1000);  
             } else {  
                 fb.className = "p-3 border border-red-300 bg-red-500/10 text-red-600 dark:text-red-400 rounded-lg text-xs text-center font-bold";  
-                fb.innerText = "오답입니다. 다시 재배치해보세요.";  
+                fb.innerHTML = `오답입니다! 정답대로 재배치하고 넘어갑니다.`;  
+                  
+                sequenceItems = [...sequenceOriginalMaster];  
+                renderSequenceItems();  
+
+                sequenceOriginalMaster.forEach(item => {  
+                    if (!sequenceUnlearned.some(u => u.text === item.text)) {  
+                        sequenceUnlearned.push(item);  
+                    }  
+                });  
+
+                setTimeout(() => {  
+                    if (!isSequenceReviewStage && sequenceUnlearned.length > 0) {  
+                        isSequenceReviewStage = true;  
+                        showToast("틀린 항목 오답 복습 시작!");  
+                        document.getElementById("sequence-stage-indicator").innerText = "(오답 복습)";  
+                        sequenceItems = shuffle([...sequenceUnlearned]);  
+                        sequenceUnlearned = [];  
+                        renderSequenceItems();  
+                    } else {  
+                        completeStudy();  
+                    }  
+                }, 1800);  
             }  
         }  
   
         // ==========================================  
-        // 3. 분류 모드 (CLASSIFY)  
+        // 3. 분류 모드 (CLASSIFY) - 오답 마지막 모아 풀기 지원  
         // ==========================================  
         let classifyList = [];   
+        let classifyUnlearnedList = [];
         let currentClassifyIndex = 0;  
-  
+        let isClassifyReviewStage = false;
+
         function initClassifyStudy(isResume) {  
             const set = findSetById(selectedSetId);  
             document.getElementById("classify-diff-label").innerText = currentDifficulty;  
             classifyList = shuffle([...set.cards.CLASSIFY]);  
+            classifyUnlearnedList = [];
             currentClassifyIndex = 0;  
+            isClassifyReviewStage = false;
+            document.getElementById("classify-stage-indicator").innerText = "";
   
             renderClassifyCategoryButtons();  
             renderClassifyCard();  
@@ -1803,7 +1833,17 @@
   
         function renderClassifyCard() {  
             if (currentClassifyIndex >= classifyList.length) {  
-                completeStudy();  
+                if (!isClassifyReviewStage && classifyUnlearnedList.length > 0) {
+                    isClassifyReviewStage = true;
+                    showToast("틀린 항목 오답 복습 시작!");
+                    document.getElementById("classify-stage-indicator").innerText = "(오답 복습)";
+                    classifyList = shuffle([...classifyUnlearnedList]);
+                    classifyUnlearnedList = [];
+                    currentClassifyIndex = 0;
+                    renderClassifyCard();
+                } else {
+                    completeStudy();  
+                }
                 return;  
             }  
             const item = classifyList[currentClassifyIndex];  
@@ -1835,9 +1875,19 @@
             } else {  
                 fb.className = "p-3 border border-red-300 bg-red-500/10 text-red-600 dark:text-red-400 rounded-lg text-xs font-bold text-center";  
                 fb.innerText = `오답 (정답: ${item.group})`;  
+                
+                // 오답 목록에 추가 (중복 방지)
+                if (!classifyUnlearnedList.some(u => u.card === item.card)) {
+                    classifyUnlearnedList.push(item);
+                }
+
+                setTimeout(() => {  
+                    currentClassifyIndex++;  
+                    renderClassifyCard();  
+                }, 1200);  
             }  
         }  
-  
+
         function completeStudy() {  
             const set = findSetById(selectedSetId);  
             const before = set.count || 0;  
@@ -1899,7 +1949,7 @@
                 list.innerHTML = "";  
                 set.cards.SEQUENCE.forEach((c, idx) => {  
                     const div = document.createElement("div");  
-                    div.className = "p-2 border border-slate-200 dark:border-slate-800 rounded-md text-xs flex justify-between items-center";  
+                    div.className, "p-2 border border-slate-200 dark:border-slate-800 rounded-md text-xs flex justify-between items-center";  
                     div.innerHTML = `<div><strong>${idx + 1}. ${escapeHtml(c.text)}</strong> (${escapeHtml(c.desc)})</div><button onclick="deleteCardRow('SEQUENCE', ${idx})" class="text-red-500 font-bold px-1.5">✕</button>`;  
                     list.appendChild(div);  
                 });  
