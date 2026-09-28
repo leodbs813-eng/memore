@@ -1,0 +1,12 @@
+{
+  "name": "메모RE",
+  "short_name": "메모RE",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbfbfa",
+  "theme_color": "#fbfbfa",
+  "icons": [
+    { "src": "IMG_6116.PNG", "sizes": "1024x1024", "type": "image/png", "purpose": "any" }
+  ]
+}
